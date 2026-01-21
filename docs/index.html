@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Fox Tooth - Video Game Backend</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            color: #495159;
+            background: linear-gradient(135deg, #f7f9f9 0%, #ffffff 100%);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2e0014 0%, #495159 100%);
+            color: #f7f9f9;
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 4px solid #db7c26;
+        }
+
+        header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        header .subtitle {
+            font-size: 1.3rem;
+            font-weight: 600;
+            opacity: 0.95;
+            margin-bottom: 15px;
+        }
+
+        header .author {
+            font-size: 1rem;
+            opacity: 0.85;
+            letter-spacing: 0.5px;
+        }
+
+        .accent {
+            color: #db7c26;
+        }
+
+        nav {
+            background: #495159;
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav a {
+            display: block;
+            color: #f7f9f9;
+            padding: 15px 20px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        nav a:hover {
+            background: rgba(219, 124, 38, 0.2);
+            border-bottom-color: #db7c26;
+            color: #db7c26;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 60px 20px;
+            margin: 20px 0;
+        }
+
+        section h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #2e0014;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #db7c26;
+            display: inline-block;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .overview-card {
+            background: linear-gradient(135deg, #2e0014 0%, #495159 100%);
+            color: #f7f9f9;
+            padding: 30px;
+            border-radius: 10px;
+            border-left: 4px solid #db7c26;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .overview-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(219, 124, 38, 0.2);
+        }
+
+        .overview-card h3 {
+            font-family: 'Poppins', sans-serif;
+            color: #db7c26;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .tech-stack {
+            background: #f7f9f9;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 2px solid #db7c26;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .tech-item {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border-top: 3px solid #db7c26;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .tech-item .label {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            color: #2e0014;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .tech-item .value {
+            color: #db7c26;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            border-left: 5px solid #db7c26;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            box-shadow: 0 8px 24px rgba(219, 124, 38, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .feature-card h3 {
+            font-family: 'Poppins', sans-serif;
+            color: #2e0014;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .feature-card ul {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .feature-card li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #495159;
+        }
+
+        .feature-card li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #db7c26;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .metrics {
+            background: linear-gradient(135deg, #2e0014 0%, #495159 100%);
+            color: #f7f9f9;
+            padding: 40px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .metric {
+            background: rgba(219, 124, 38, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #db7c26;
+        }
+
+        .metric-number {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #db7c26;
+            margin-bottom: 10px;
+        }
+
+        .metric-label {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .code-block {
+            background: #2e0014;
+            color: #db7c26;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border-left: 4px solid #db7c26;
+        }
+
+        .quick-start {
+            background: #f7f9f9;
+            border: 2px dashed #db7c26;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+
+        .quick-start h3 {
+            font-family: 'Poppins', sans-serif;
+            color: #2e0014;
+            margin-bottom: 20px;
+        }
+
+        .step {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid #db7c26;
+            border-radius: 5px;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #db7c26;
+            color: #2e0014;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .architecture {
+            background: white;
+            border: 2px solid #db7c26;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .architecture-diagram {
+            background: #2e0014;
+            color: #f7f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            white-space: pre;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #db7c26 0%, #b85f1f 100%);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(219, 124, 38, 0.3);
+            background: linear-gradient(135deg, #b85f1f 0%, #db7c26 100%);
+        }
+
+        footer {
+            background: linear-gradient(135deg, #2e0014 0%, #495159 100%);
+            color: #f7f9f9;
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 4px solid #db7c26;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #db7c26;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .social-links {
+            margin: 20px 0;
+        }
+
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 10px 20px;
+            background: rgba(219, 124, 38, 0.1);
+            border: 2px solid #db7c26;
+            border-radius: 5px;
+        }
+
+        .social-links a:hover {
+            background: #db7c26;
+            color: #2e0014;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #db7c26;
+            color: #2e0014;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+
+            section h2 {
+                font-size: 1.8rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav a {
+                text-align: center;
+                border-bottom: none;
+                border-right: 3px solid transparent;
+                padding: 12px 15px;
+            }
+
+            nav a:hover {
+                border-right-color: #db7c26;
+                border-bottom: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Project <span class="accent">Fox Tooth</span></h1>
+        <div class="subtitle">🎮 Production-Grade Video Game Backend</div>
+        <div class="author">by Jojo Noyes</div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#tech">Tech Stack</a></li>
+            <li><a href="#architecture">Architecture</a></li>
+            <li><a href="#quickstart">Quick Start</a></li>
+            <li><a href="#api">API</a></li>
+            <li><a href="#docs">Docs</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- Overview Section -->
+        <section id="overview">
+            <h2>🚀 Overview</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 30px;">
+                Project Fox Tooth is a production-grade backend system built for multiplayer game session management, real-time communication, and comprehensive player infrastructure. Designed to handle high-concurrency environments with sub-100ms latency guarantees.
+            </p>
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <h3>⚡ Real-Time</h3>
+                    <p>WebSocket-based communication with <100ms delivery guarantees for critical game events</p>
+                </div>
+                <div class="overview-card">
+                    <h3>🔒 Secure</h3>
+                    <p>Multi-token JWT authentication system with bcrypt hashing and comprehensive rate limiting</p>
+                </div>
+                <div class="overview-card">
+                    <h3>📊 Scalable</h3>
+                    <p>Database connection pooling, optimized queries, and automatic host transfer for seamless sessions</p>
+                </div>
+                <div class="overview-card">
+                    <h3>☁️ Production Ready</h3>
+                    <p>AWS-deployed with PM2 process management, CloudWatch monitoring, and zero-downtime deployments</p>
+                </div>
+                <div class="overview-card">
+                    <h3>🎯 Game-Focused</h3>
+                    <p>Built specifically for multiplayer gaming with friend systems, invite management, and session persistence</p>
+                </div>
+                <div class="overview-card">
+                    <h3>📚 Well Documented</h3>
+                    <p>Complete API documentation, architecture guides, and deployment instructions included</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Status Badges -->
+        <section style="text-align: center; padding: 20px;">
+            <span class="badge">✓ Production Ready</span>
+            <span class="badge">v1.0.0</span>
+            <span class="badge">MIT License</span>
+            <span class="badge">Active Development</span>
+        </section>
+
+        <!-- Tech Stack -->
+        <section id="tech">
+            <h2>🛠️ Tech Stack</h2>
+            <div class="tech-stack">
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <div class="label">Runtime</div>
+                        <div class="value">Node.js 16+</div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="label">Framework</div>
+                        <div class="value">Express.js 4.18</div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="label">Real-Time</div>
+                        <div class="value">Socket.IO 4.8</div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="label">Database</div>
+                        <div class="value">MySQL 5.7+</div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="label">Authentication</div>
+                        <div class="value">JWT + bcrypt</div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="label">Cloud Platform</div>
+                        <div class="value">AWS (EC2/RDS)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section id="features">
+            <h2>✨ Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Real-Time Communication</h3>
+                    <ul>
+                        <li>WebSocket support via Socket.IO</li>
+                        <li>Connection pooling for efficiency</li>
+                        <li>Automatic reconnection with exponential backoff</li>
+                        <li>&lt;100ms delivery guarantee</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>Security</h3>
+                    <ul>
+                        <li>Multi-token JWT authentication system</li>
+                        <li>Bcrypt password hashing (12 rounds)</li>
+                        <li>Rate limiting (5 accounts/15min)</li>
+                        <li>Input validation on all endpoints</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>Database Design</h3>
+                    <ul>
+                        <li>6 optimized tables with proper indexing</li>
+                        <li>Connection pooling for scalability</li>
+                        <li>Automatic cleanup of stale data</li>
+                        <li>Transaction support for data integrity</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>Session Management</h3>
+                    <ul>
+                        <li>Automatic host transfer on disconnect</li>
+                        <li>Concurrent session support</li>
+                        <li>Friend-based grouping system</li>
+                        <li>Persistent session state</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>Production Deployment</h3>
+                    <ul>
+                        <li>AWS EC2 and RDS integration</li>
+                        <li>PM2 process management</li>
+                        <li>CloudWatch monitoring and logging</li>
+                        <li>Zero-downtime deployment ready</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>Player Infrastructure</h3>
+                    <ul>
+                        <li>Complete friend system</li>
+                        <li>Invite management with notifications</li>
+                        <li>Game server registry</li>
+                        <li>Player profile management</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Metrics -->
+            <div class="metrics">
+                <h3>📈 By The Numbers</h3>
+                <div class="metrics-grid">
+                    <div class="metric">
+                        <div class="metric-number">6 Months</div>
+                        <div class="metric-label">Development Time</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-number">6K+</div>
+                        <div class="metric-label">Lines of Code</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-number">6</div>
+                        <div class="metric-label">Database Tables</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-number">&lt;100ms</div>
+                        <div class="metric-label">Invite Delivery</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-number">20+</div>
+                        <div class="metric-label">API Endpoints</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-number">100%</div>
+                        <div class="metric-label">Uptime (Current)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture -->
+        <section id="architecture">
+            <h2>🏗️ Architecture</h2>
+            <div class="architecture">
+                <p style="margin-bottom: 20px;">Project Fox Tooth uses a modular, layered architecture optimized for real-time multiplayer gaming:</p>
+                <div class="architecture-diagram">┌─────────────────────────────────────────────────────────────┐
+│                    Game Clients (Unity, Web)                 │
+│                                                               │
+│            HTTP Requests     WebSocket Events                │
+└──────────────────┬──────────────────────┬────────────────────┘
+                   │                      │
+                   ▼                      ▼
+        ┌────────────────────────────────────────┐
+        │     Express.js Backend Server          │
+        │                                        │
+        │  ├─ Authentication Service             │
+        │  ├─ Player Management                  │
+        │  ├─ Invite System                      │
+        │  ├─ Game Session Manager               │
+        │  ├─ Friend Management                  │
+        │  └─ Game Server Registry               │
+        └────────────────┬───────────────────────┘
+                         │
+        ┌────────────────┴───────────────────┐
+        ▼                                     ▼
+   ┌─────────────┐                   ┌──────────────┐
+   │  MySQL DB   │                   │ Game Servers │
+   │             │                   │              │
+   │ • Players   │                   │ (External)   │
+   │ • Invites   │                   │              │
+   │ • Sessions  │                   └──────────────┘
+   │ • Friends   │
+   └─────────────┘</div>
+
+                <h3 style="margin-top: 30px; color: #2e0014;">Core Components</h3>
+                <div class="features-grid" style="margin-top: 20px;">
+                    <div class="feature-card">
+                        <h4 style="color: #db7c26;">Authentication Service</h4>
+                        <p>Manages user registration, login, and token lifecycle. Implements multi-token system with access/refresh tokens, remember-me functionality, and admin token support.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4 style="color: #db7c26;">Player Management</h4>
+                        <p>Handles player profiles, statistics, preferences, and online status. Tracks active sessions and maintains player presence data.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4 style="color: #db7c26;">Invite System</h4>
+                        <p>Real-time invite notifications via WebSocket. Supports invite acceptance/rejection with automatic session creation and automatic cleanup.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4 style="color: #db7c26;">Game Session Manager</h4>
+                        <p>Creates and manages multiplayer game sessions. Handles host transfer, automatic cleanup, session persistence, and concurrent sessions per player.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4 style="color: #db7c26;">Friend Management</h4>
+                        <p>Implements friend requests, friend lists, and friend-based grouping. Supports blocking and pending relationship states.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4 style="color: #db7c26;">Game Server Registry</h4>
+                        <p>Tracks available game servers, their capacity, and current load. Enables dynamic server registration and health checking.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Start -->
+        <section id="quickstart">
+            <h2>⚡ Quick Start</h2>
+            <div class="quick-start">
+                <h3>Prerequisites</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Node.js 16+</strong> - Install from nodejs.org
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>MySQL 5.7+</strong> - Local or remote database instance
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>npm or yarn</strong> - Package manager (included with Node.js)
+                </div>
+
+                <h3 style="margin-top: 40px; color: #2e0014;">Installation</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Clone the repository</strong>
+                    <div class="code-block">git clone https://github.com/JojoNoyes/FoxTooth-Backend.git
+cd FoxTooth-Backend</div>
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Install dependencies</strong>
+                    <div class="code-block">npm install</div>
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Configure environment</strong>
+                    <div class="code-block">cp .env.example .env
+# Edit .env with your database credentials and configuration</div>
+                </div>
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <strong>Run database migrations</strong>
+                    <div class="code-block">npm run migrate</div>
+                </div>
+                <div class="step">
+                    <span class="step-number">5</span>
+                    <strong>Start the server</strong>
+                    <div class="code-block">npm start
+# Server will start on http://localhost:3000</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- API Overview -->
+        <section id="api">
+            <h2>📡 API Overview</h2>
+            <p style="margin-bottom: 30px;">Project Fox Tooth exposes a comprehensive REST API for all backend operations:</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Authentication</h3>
+                    <ul>
+                        <li><code style="color: #db7c26;">POST /api/auth/register</code></li>
+                        <li><code style="color: #db7c26;">POST /api/auth/login</code></li>
+                        <li><code style="color: #db7c26;">POST /api/auth/refresh</code></li>
+                        <li><code style="color: #db7c26;">POST /api/auth/logout</code></li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>Players</h3>
+                    <ul>
+                        <li><code style="color: #db7c26;">GET /api/players/:id</code></li>
+                        <li><code style="color: #db7c26;">PUT /api/players/:id</code></li>
+                        <li><code style="color: #db7c26;">GET /api/players/status/:id</code></li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>Invites</h3>
+                    <ul>
+                        <li><code style="color: #db7c26;">POST /api/invites/send</code></li>
+                        <li><code style="color: #db7c26;">GET /api/invites/pending</code></li>
+                        <li><code style="color: #db7c26;">POST /api/invites/accept</code></li>
+                        <li><code style="color: #db7c26;">POST /api/invites/reject</code></li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>Sessions</h3>
+                    <ul>
+                        <li><code style="color: #db7c26;">POST /api/sessions/create</code></li>
+                        <li><code style="color: #db7c26;">GET /api/sessions/:id</code></li>
+                        <li><code style="color: #db7c26;">PUT /api/sessions/:id</code></li>
+                        <li><code style="color: #db7c26;">DELETE /api/sessions/:id</code></li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>Friends</h3>
+                    <ul>
+                        <li><code style="color: #db7c26;">POST /api/friends/request</code></li>
+                        <li><code style="color: #db7c26;">GET /api/friends/list</code></li>
+                        <li><code style="color: #db7c26;">POST /api/friends/accept</code></li>
+                        <li><code style="color: #db7c26;">POST /api/friends/block</code></li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h3>Servers</h3>
+                    <ul>
+                        <li><code style="color: #db7c26;">POST /api/servers/register</code></li>
+                        <li><code style="color: #db7c26;">GET /api/servers/list</code></li>
+                        <li><code style="color: #db7c26;">GET /api/servers/:id</code></li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 40px; color: #2e0014;">WebSocket Events</h3>
+            <p>Real-time events are delivered via WebSocket connection:</p>
+            <div class="code-block">// Client listens for incoming invite
+socket.on('invite:received', (data) => {
+  console.log('New invite from:', data.senderName);
+  console.log('Message:', data.message);
+  // Handle invite in game UI
+});
+
+// Client sends invite response
+socket.emit('invite:response', {
+  inviteId: '12345',
+  accepted: true
+});
+
+// Receive session created notification
+socket.on('session:created', (data) => {
+  console.log('Session started:', data.sessionId);
+  // Connect to game server
+});</div>
+        </section>
+
+        <!-- Documentation -->
+        <section id="docs">
+            <h2>📚 Documentation</h2>
+            <p style="margin-bottom: 30px;">Complete documentation is available in the repository:</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>📖 README.md</h3>
+                    <p>Overview and quick start guide. Start here for project introduction.</p>
+                    <a href="https://github.com/JojoNoyes/FoxTooth-Backend" class="cta-button" style="margin-top: 15px; display: block; text-align: center;">View on GitHub</a>
+                </div>
+                <div class="feature-card">
+                    <h3>🏗️ Architecture</h3>
+                    <p>Detailed system architecture, component diagrams, and design decisions.</p>
+                    <a href="#architecture" class="cta-button" style="margin-top: 15px; display: block; text-align: center;">Learn More</a>
+                </div>
+                <div class="feature-card">
+                    <h3>⚙️ Configuration</h3>
+                    <p>All configurable settings, environment variables, and tuning options.</p>
+                    <a href="https://github.com/JojoNoyes/FoxTooth-Backend" class="cta-button" style="margin-top: 15px; display: block; text-align: center;">View Config</a>
+                </div>
+                <div class="feature-card">
+                    <h3>🚀 Deployment</h3>
+                    <p>Step-by-step AWS deployment guide, Docker instructions, and production setup.</p>
+                    <a href="https://github.com/JojoNoyes/FoxTooth-Backend" class="cta-button" style="margin-top: 15px; display: block; text-align: center;">Deploy Guide</a>
+                </div>
+                <div class="feature-card">
+                    <h3>🐛 Troubleshooting</h3>
+                    <p>Common issues, error messages, and solutions for development and production.</p>
+                    <a href="https://github.com/JojoNoyes/FoxTooth-Backend" class="cta-button" style="margin-top: 15px; display: block; text-align: center;">Troubleshoot</a>
+                </div>
+                <div class="feature-card">
+                    <h3>❓ FAQ</h3>
+                    <p>Frequently asked questions about the project, architecture, and usage.</p>
+                    <a href="https://github.com/JojoNoyes/FoxTooth-Backend" class="cta-button" style="margin-top: 15px; display: block; text-align: center;">View FAQ</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section style="text-align: center; padding: 80px 20px;">
+            <h2 style="margin-bottom: 30px;">Ready to Get Started?</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                Clone the repository and follow the Quick Start guide to get Project Fox Tooth running locally in minutes.
+            </p>
+            <a href="https://github.com/JojoNoyes/FoxTooth-Backend" class="cta-button" style="font-size: 1.1rem; padding: 18px 50px;">View on GitHub</a>
+        </section>
+    </div>
+
+    <footer>
+        <h3>Project Fox Tooth</h3>
+        <p>A production-grade multiplayer game backend by <strong>Jojo Noyes</strong></p>
+        
+        <div class="social-links">
+            <a href="https://github.com/JojoNoyes">GitHub</a>
+            <a href="https://www.linkedin.com/in/jojo-noyes/">LinkedIn</a>
+            <a href="mailto:your.email@example.com">Email</a>
+        </div>
+
+        <p style="margin-top: 30px; opacity: 0.8;">
+            MIT License | Built with ❤️ for game developers
+        </p>
+        <p style="opacity: 0.7; font-size: 0.9rem;">
+            <a href="https://github.com/JojoNoyes/FoxTooth-Backend" style="color: #db7c26;">View Source Code</a> | 
+            <a href="https://github.com/JojoNoyes/FoxTooth-Backend/issues" style="color: #db7c26;">Report Issues</a> | 
+            <a href="https://github.com/JojoNoyes/FoxTooth-Backend/blob/main/LICENSE" style="color: #db7c26;">License</a>
+        </p>
+    </footer>
+</body>
+</html>
