@@ -1,503 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FoxTooth Backend - Video Game Server</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+# FoxTooth Backend
 
-        body {
-            font-family: 'Source Sans Pro', sans-serif;
-            color: #495159;
-            background: linear-gradient(135deg, #f7f9f9 0%, #ffffff 100%);
-            line-height: 1.6;
-        }
+**Professional Video Game Server Infrastructure**
 
-        header {
-            background: linear-gradient(135deg, #2e0014 0%, #495159 100%);
-            color: #f7f9f9;
-            padding: 80px 20px;
-            text-align: center;
-            border-bottom: 4px solid #db7c26;
-        }
+✅ **Production Ready** | Last Updated: January 21, 2026
 
-        header h1 {
-            font-family: 'Poppins', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
-        }
+## Quick Start
 
-        header .subtitle {
-            font-size: 1.3rem;
-            font-weight: 600;
-            opacity: 0.95;
-            margin-bottom: 15px;
-        }
+### 🚀 Deploy Tomorrow
+→ [DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md) - Step-by-step setup (30 min)
 
-        header .status {
-            font-size: 1rem;
-            opacity: 0.85;
-            letter-spacing: 0.5px;
-        }
+### 📚 Understand Endpoints
+→ [API_REFERENCE.md](docs/API_REFERENCE.md) - Complete endpoint documentation
 
-        .accent {
-            color: #db7c26;
-        }
+### 🔒 Security Review
+→ [SECURITY_AUDIT.md](docs/SECURITY_AUDIT.md) - Comprehensive security audit
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+### 📊 Full Overview
+→ [PRODUCTION_READINESS.md](docs/PRODUCTION_READINESS.md) - Production checklist
 
-        section {
-            padding: 60px 20px;
-            margin: 20px 0;
-        }
+## By The Numbers
 
-        section h2 {
-            font-family: 'Poppins', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 30px;
-            color: #2e0014;
-            padding-bottom: 15px;
-            border-bottom: 3px solid #db7c26;
-            display: inline-block;
-        }
+- **21+** API Endpoints
+- **100%** Test Coverage
+- **<100ms** Response Time
+- **99.9%** Uptime SLA
 
-        section h3 {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #2e0014;
-            margin-top: 25px;
-            margin-bottom: 15px;
-        }
+## Featured Documentation
 
-        .quick-links {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
+### 🚀 DEPLOYMENT_GUIDE.md
+Complete step-by-step deployment instructions for production environments.
+- Pre-launch checklist
+- Multiple deployment options
+- HTTPS configuration
+- Health check setup
 
-        .quick-link-card {
-            background: linear-gradient(135deg, #2e0014 0%, #495159 100%);
-            color: #f7f9f9;
-            padding: 30px;
-            border-radius: 10px;
-            border-left: 5px solid #db7c26;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
+### 📖 API_REFERENCE.md
+Full documentation of all 21+ endpoints with request/response examples.
+- All endpoints documented
+- Request/response examples
+- Error codes explained
+- Rate limits & tokens
 
-        .quick-link-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(219, 124, 38, 0.2);
-        }
+### 🔒 SECURITY_AUDIT.md
+Detailed security audit and best practices for production deployment.
+- Vulnerability assessment
+- Authentication security
+- Data protection
+- Compliance checklist
 
-        .quick-link-card .title {
-            font-family: 'Poppins', sans-serif;
-            color: #db7c26;
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-            font-weight: 700;
-        }
+### ✅ PRODUCTION_READINESS.md
+Executive summary and comprehensive readiness assessment.
+- Go-live confidence check
+- Final verification
+- Timeline & milestones
+- Post-deployment plan
 
-        .quick-link-card .description {
-            font-size: 0.95rem;
-            opacity: 0.95;
-        }
+### 👥 FRIENDS_SYSTEM.md
+Complete documentation of the friends system implementation.
+- System architecture
+- Invite workflows
+- WebSocket integration
+- Client examples
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
+### 🌐 WEBSOCKET_SUMMARY.md
+WebSocket implementation guide for real-time multiplayer features.
+- Connection lifecycle
+- Event messaging
+- Error handling
+- Best practices
 
-        .doc-card {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            border-left: 5px solid #db7c26;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-        }
+## Complete Documentation
 
-        .doc-card:hover {
-            box-shadow: 0 8px 24px rgba(219, 124, 38, 0.15);
-            transform: translateY(-3px);
-        }
+Browse the full documentation library:
 
-        .doc-card h3 {
-            color: #2e0014;
-            margin-bottom: 10px;
-        }
+- [📋 DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md) - Step-by-step deployment instructions
+- [📚 API_REFERENCE.md](docs/API_REFERENCE.md) - Complete endpoint documentation
+- [🔒 SECURITY_AUDIT.md](docs/SECURITY_AUDIT.md) - Security review and assessment
+- [✅ PRODUCTION_READINESS.md](docs/PRODUCTION_READINESS.md) - Production readiness checklist
+- [👥 FRIENDS_SYSTEM.md](docs/FRIENDS_SYSTEM.md) - Friends system documentation
+- [🌐 WEBSOCKET_SUMMARY.md](docs/WEBSOCKET_SUMMARY.md) - WebSocket implementation guide
+- [🚀 GETTING_STARTED.md](docs/GETTING_STARTED.md) - Quick start guide
+- [⚡ ENDPOINTS_CHEATSHEET.md](docs/ENDPOINTS_CHEATSHEET.md) - Quick reference for all endpoints
+- [🎮 UNITY_INTEGRATION.md](docs/UNITY_INTEGRATION.md) - Unity client integration guide
 
-        .doc-meta {
-            color: #db7c26;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+---
 
-        .doc-card p {
-            color: #495159;
-            margin-bottom: 15px;
-        }
-
-        .doc-card ul {
-            list-style: none;
-            margin-left: 0;
-            margin-top: 15px;
-        }
-
-        .doc-card li {
-            padding: 8px 0;
-            padding-left: 25px;
-            position: relative;
-            color: #495159;
-        }
-
-        .doc-card li:before {
-            content: "▸";
-            position: absolute;
-            left: 0;
-            color: #db7c26;
-            font-weight: bold;
-        }
-
-        .stats-section {
-            background: linear-gradient(135deg, #2e0014 0%, #495159 100%);
-            color: #f7f9f9;
-            padding: 60px 20px;
-            border-radius: 10px;
-            margin: 40px 0;
-            text-align: center;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .stat-item {
-            background: rgba(219, 124, 38, 0.1);
-            padding: 25px;
-            border-radius: 8px;
-            border-top: 3px solid #db7c26;
-        }
-
-        .stat-number {
-            font-family: 'Poppins', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #db7c26;
-            margin-bottom: 10px;
-        }
-
-        .stat-label {
-            font-size: 0.95rem;
-            font-weight: 600;
-            opacity: 0.95;
-        }
-
-        .cta-section {
-            background: linear-gradient(135deg, #db7c26 0%, #c9651c 100%);
-            color: #f7f9f9;
-            padding: 50px 20px;
-            border-radius: 10px;
-            margin: 40px 0;
-            text-align: center;
-        }
-
-        .cta-section h2 {
-            color: #f7f9f9;
-            border-bottom-color: #f7f9f9;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background: #2e0014;
-            color: #db7c26;
-            padding: 15px 40px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: 700;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-            font-family: 'Poppins', sans-serif;
-            border: 2px solid #2e0014;
-        }
-
-        .cta-button:hover {
-            background: transparent;
-            color: #f7f9f9;
-        }
-
-        footer {
-            background: #2e0014;
-            color: #f7f9f9;
-            text-align: center;
-            padding: 30px 20px;
-            border-top: 4px solid #db7c26;
-            margin-top: 60px;
-        }
-
-        .doc-links {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .doc-link {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            border-left: 5px solid #db7c26;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-        }
-
-        .doc-link:hover {
-            box-shadow: 0 6px 16px rgba(219, 124, 38, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .doc-link a {
-            color: #2e0014;
-            text-decoration: none;
-            font-weight: 600;
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        .doc-link a:hover {
-            color: #db7c26;
-        }
-
-        .doc-link .description {
-            font-size: 0.9rem;
-            color: #495159;
-        }
-
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2.5rem;
-            }
-
-            section h2 {
-                font-size: 2rem;
-            }
-
-            .stat-number {
-                font-size: 2rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>FoxTooth <span class="accent">Backend</span></h1>
-        <div class="subtitle">Professional Video Game Server Infrastructure</div>
-        <div class="status">✅ Production Ready | Last Updated: January 21, 2026</div>
-    </header>
-
-    <div class="container">
-        <!-- Quick Links Section -->
-        <section>
-            <h2>Quick Start</h2>
-            <div class="quick-links">
-                <div class="quick-link-card">
-                    <div class="title">🚀 Deploy Tomorrow</div>
-                    <div class="description">Step-by-step deployment guide with 30-minute setup</div>
-                </div>
-                <div class="quick-link-card">
-                    <div class="title">📚 Understand Endpoints</div>
-                    <div class="description">Complete API reference with examples and error codes</div>
-                </div>
-                <div class="quick-link-card">
-                    <div class="title">🔒 Security Review</div>
-                    <div class="description">Comprehensive security audit and best practices</div>
-                </div>
-                <div class="quick-link-card">
-                    <div class="title">📊 Full Overview</div>
-                    <div class="description">Production readiness checklist and system overview</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Stats Section -->
-        <section class="stats-section">
-            <h2>By The Numbers</h2>
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-number">21+</div>
-                    <div class="stat-label">API Endpoints</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">100%</div>
-                    <div class="stat-label">Test Coverage</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">&lt;100ms</div>
-                    <div class="stat-label">Response Time</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">99.9%</div>
-                    <div class="stat-label">Uptime SLA</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Featured Documentation -->
-        <section>
-            <h2>Featured Documentation</h2>
-            <div class="features-grid">
-                <div class="doc-card">
-                    <h3>🚀 DEPLOYMENT_GUIDE.md</h3>
-                    <div class="doc-meta">30 MIN SETUP</div>
-                    <p>Complete step-by-step deployment instructions for production environments.</p>
-                    <ul>
-                        <li>Pre-launch checklist</li>
-                        <li>Multiple deployment options</li>
-                        <li>HTTPS configuration</li>
-                        <li>Health check setup</li>
-                    </ul>
-                </div>
-                <div class="doc-card">
-                    <h3>📖 API_REFERENCE.md</h3>
-                    <div class="doc-meta">COMPLETE API DOCS</div>
-                    <p>Full documentation of all 21+ endpoints with request/response examples.</p>
-                    <ul>
-                        <li>All endpoints documented</li>
-                        <li>Request/response examples</li>
-                        <li>Error codes explained</li>
-                        <li>Rate limits & tokens</li>
-                    </ul>
-                </div>
-                <div class="doc-card">
-                    <h3>🔒 SECURITY_AUDIT.md</h3>
-                    <div class="doc-meta">SECURITY REVIEW</div>
-                    <p>Detailed security audit and best practices for production deployment.</p>
-                    <ul>
-                        <li>Vulnerability assessment</li>
-                        <li>Authentication security</li>
-                        <li>Data protection</li>
-                        <li>Compliance checklist</li>
-                    </ul>
-                </div>
-                <div class="doc-card">
-                    <h3>✅ PRODUCTION_READINESS.md</h3>
-                    <div class="doc-meta">COMPREHENSIVE GUIDE</div>
-                    <p>Executive summary and comprehensive readiness assessment.</p>
-                    <ul>
-                        <li>Go-live confidence check</li>
-                        <li>Final verification</li>
-                        <li>Timeline & milestones</li>
-                        <li>Post-deployment plan</li>
-                    </ul>
-                </div>
-                <div class="doc-card">
-                    <h3>👥 FRIENDS_SYSTEM.md</h3>
-                    <div class="doc-meta">FEATURE GUIDE</div>
-                    <p>Complete documentation of the friends system implementation.</p>
-                    <ul>
-                        <li>System architecture</li>
-                        <li>Invite workflows</li>
-                        <li>WebSocket integration</li>
-                        <li>Client examples</li>
-                    </ul>
-                </div>
-                <div class="doc-card">
-                    <h3>🌐 WEBSOCKET_SUMMARY.md</h3>
-                    <div class="doc-meta">REAL-TIME COMMS</div>
-                    <p>WebSocket implementation guide for real-time multiplayer features.</p>
-                    <ul>
-                        <li>Connection lifecycle</li>
-                        <li>Event messaging</li>
-                        <li>Error handling</li>
-                        <li>Best practices</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- All Documentation -->
-        <section>
-            <h2>Complete Documentation</h2>
-            <p style="margin-bottom: 20px; color: #495159;">Browse the full documentation library organized by use case and topic:</p>
-            <div class="doc-links">
-                <div class="doc-link">
-                    <a href="docs/DEPLOYMENT_GUIDE.md">📋 DEPLOYMENT_GUIDE.md</a>
-                    <div class="description">Step-by-step deployment instructions</div>
-                </div>
-                <div class="doc-link">
-                    <a href="docs/API_REFERENCE.md">📚 API_REFERENCE.md</a>
-                    <div class="description">Complete endpoint documentation</div>
-                </div>
-                <div class="doc-link">
-                    <a href="docs/SECURITY_AUDIT.md">🔒 SECURITY_AUDIT.md</a>
-                    <div class="description">Security review and assessment</div>
-                </div>
-                <div class="doc-link">
-                    <a href="docs/PRODUCTION_READINESS.md">✅ PRODUCTION_READINESS.md</a>
-                    <div class="description">Production readiness checklist</div>
-                </div>
-                <div class="doc-link">
-                    <a href="docs/FRIENDS_SYSTEM.md">👥 FRIENDS_SYSTEM.md</a>
-                    <div class="description">Friends system documentation</div>
-                </div>
-                <div class="doc-link">
-                    <a href="docs/WEBSOCKET_SUMMARY.md">🌐 WEBSOCKET_SUMMARY.md</a>
-                    <div class="description">WebSocket implementation guide</div>
-                </div>
-                <div class="doc-link">
-                    <a href="docs/GETTING_STARTED.md">🚀 GETTING_STARTED.md</a>
-                    <div class="description">Quick start guide</div>
-                </div>
-                <div class="doc-link">
-                    <a href="docs/ENDPOINTS_CHEATSHEET.md">⚡ ENDPOINTS_CHEATSHEET.md</a>
-                    <div class="description">Quick reference for all endpoints</div>
-                </div>
-                <div class="doc-link">
-                    <a href="docs/UNITY_INTEGRATION.md">🎮 UNITY_INTEGRATION.md</a>
-                    <div class="description">Unity client integration guide</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CTA Section -->
-        <section class="cta-section">
-            <h2>Ready to Get Started?</h2>
-            <p style="font-size: 1.1rem; margin-top: 15px;">Read the deployment guide to launch your game backend in production today</p>
-            <a href="docs/DEPLOYMENT_GUIDE.md" class="cta-button">View Deployment Guide</a>
-        </section>
-    </div>
-
-    <footer>
-        <p>&copy; 2026 FoxTooth Backend. Built for professional game development.</p>
-        <p style="margin-top: 10px; opacity: 0.8;">View all documentation in the <code style="background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 4px;">/docs</code> directory</p>
-    </footer>
-</body>
-</html>
+Built for professional game development. 🦊
 
 ### 1. DEPLOYMENT_READY.md (THIS FILE)
 **What:** Executive summary & deployment confidence checklist  
