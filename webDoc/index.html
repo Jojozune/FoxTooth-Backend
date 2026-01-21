@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Game Invites Backend Documentation</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-content">
+        <div class="logo-section">
+          <h1>🎮 Game Invites Backend</h1>
+          <p class="subtitle">Production-Ready Multiplayer Game API</p>
+        </div>
+        <div class="status-badge">✅ Production Ready</div>
+      </div>
+    </header>
+
+    <div id="app">
+      <aside id="sidebar">
+        <div class="sidebar-header">
+          <h3>📚 Documentation</h3>
+          <input id="search" placeholder="Search docs..." />
+        </div>
+        
+        <div id="categories">
+          <!-- Categories will be dynamically populated -->
+        </div>
+        
+        <ul id="doc-list"></ul>
+        
+        <div class="sidebar-footer">
+          <p class="version">v2.0 • Oct 27, 2025</p>
+          <p style="font-size: 0.85em; color: #6ee7b7; margin-top: 10px;">
+            📖 <a href="#" onclick="loadDoc('GETTING_STARTED.md'); return false;" style="color: #6ee7b7; text-decoration: underline;">Getting Started</a>
+          </p>
+        </div>
+      </aside>
+
+      <main id="content">
+        <div id="doc-meta"></div>
+        <article id="doc-body">
+          <div class="welcome-screen">
+            <h2>Welcome to Game Invites Backend</h2>
+            <p>Select a documentation topic from the left sidebar to get started.</p>
+            <div class="quick-links">
+              <a href="#" class="link-btn" data-doc="MASTER_DOCUMENTATION.md">📖 Read Full Guide</a>
+              <a href="#" class="link-btn" data-doc="ENDPOINTS_CHEATSHEET.md">⚡ Quick Reference</a>
+              <a href="#" class="link-btn" data-doc="DEPLOYMENT_GUIDE.md">🚀 Deployment</a>
+            </div>
+          </div>
+        </article>
+      </main>
+    </div>
+
+    <footer>
+      <div class="footer-content">
+        <small>🔐 Secure • 📊 Scalable • 🚀 Production-Ready</small>
+        <small>API Version 2.0 • Last Updated Oct 21, 2025</small>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@2.4.0/dist/purify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

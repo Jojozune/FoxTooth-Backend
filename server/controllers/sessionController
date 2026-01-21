@@ -1,0 +1,128 @@
+const db = require('../config/database');
+const sessionService = require('../services/sessionService');
+
+// Player disconnect
+function disconnectPlayer(req, res) {
+  const player_id = req.player.playerId;
+
+  console.log('=== PLAYER DISCONNECT START ===');
+  console.log('Player ID disconnecting:', player_id);
+
+  // First, find all sessions where this player is host
+  const findSessionsQuery = `
+    SELECT gs.id as session_id, gs.server_id, gs.session_code, gs.current_players
+    FROM game_sessions gs
+    WHERE gs.host_player_id = ?
+  `;
+
+  db.execute(findSessionsQuery, [player_id], (sessionErr, sessionResults) => {
+    if (sessionErr) {
+      console.error('❌ Session find error:', sessionErr);
+      return res.status(500).json({ status: 'error', message: 'Database error finding session' });
+    }
+
+    if (sessionResults.length === 0) {
+      console.log('⚠️ No session found for player, marking offline only');
+      markPlayerOffline(player_id, res);
+      return;
+    }
+
+    const session = sessionResults[0];
+    console.log('🗑️ Found session to handle:', session);
+
+    if (session.current_players > 1) {
+      // Other players in session - transfer host to another player
+      transferHostToAnotherPlayer(session.session_id, session.server_id, player_id, res);
+    } else {
+      // Only player in session - delete the session
+      deleteSessionAndUpdateServer(session.session_id, session.server_id, player_id, res);
+    }
+  });
+}
+
+function transferHostToAnotherPlayer(session_id, server_id, leaving_player_id, res) {
+  const pickNewHostQuery = `
+    UPDATE game_sessions 
+    SET host_player_id = (
+      SELECT p.id FROM players p
+      JOIN game_sessions gs ON p.id = gs.host_player_id  
+      WHERE gs.id = ? AND p.id != ?
+      LIMIT 1
+    ),
+    current_players = current_players - 1
+    WHERE id = ?
+  `;
+
+  console.log('🔄 Transferring host to another player...');
+
+  db.execute(pickNewHostQuery, [session_id, leaving_player_id, session_id], (transferErr) => {
+    if (transferErr) {
+      console.error('❌ Host transfer error:', transferErr);
+      // If transfer fails, just decrement player count
+      const fallbackQuery = `UPDATE game_sessions SET current_players = current_players - 1 WHERE id = ?`;
+      db.execute(fallbackQuery, [session_id], (fallbackErr) => {
+        if (fallbackErr) {
+          console.error('❌ Fallback update error:', fallbackErr);
+        }
+        updateServerCountAndMarkOffline(server_id, leaving_player_id, res);
+      });
+    } else {
+      console.log('✅ Host transferred and player count decreased');
+      updateServerCountAndMarkOffline(server_id, leaving_player_id, res);
+    }
+  });
+}
+
+function deleteSessionAndUpdateServer(session_id, server_id, player_id, res) {
+  // Delete the game session
+  const deleteSessionQuery = `DELETE FROM game_sessions WHERE id = ?`;
+
+  console.log('🔄 Deleting empty game session...');
+  db.execute(deleteSessionQuery, [session_id], (deleteErr) => {
+    if (deleteErr) {
+      console.error('❌ Session delete error:', deleteErr);
+    } else {
+      console.log('✅ Game session deleted');
+    }
+
+    updateServerCountAndMarkOffline(server_id, player_id, res);
+  });
+}
+
+function updateServerCountAndMarkOffline(server_id, player_id, res) {
+  // Update server player count (DECREASE it)
+  sessionService.updateServerPlayerCount(server_id, -1, (serverErr) => {
+    if (serverErr) {
+      console.error('⚠️ Server count update error:', serverErr);
+    } else {
+      console.log('✅ Server player count decreased');
+    }
+
+    markPlayerOffline(player_id, res);
+  });
+}
+
+function markPlayerOffline(player_id, res) {
+  // Mark player as offline
+  const updatePlayerQuery = `UPDATE players SET is_online = 0, last_seen = NOW() WHERE id = ?`;
+
+  console.log('🔄 Marking player offline...');
+  db.execute(updatePlayerQuery, [player_id], (playerErr) => {
+    if (playerErr) {
+      console.error('❌ Player offline update error:', playerErr);
+      return res.status(500).json({ status: 'error', message: 'Failed to mark player offline' });
+    }
+
+    console.log('✅ Player marked offline');
+    console.log('=== PLAYER DISCONNECT SUCCESS ===');
+
+    res.json({
+      status: 'success',
+      message: 'Player disconnected and session handled'
+    });
+  });
+}
+
+module.exports = {
+  disconnectPlayer
+};

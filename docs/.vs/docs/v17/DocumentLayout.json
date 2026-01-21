@@ -1,0 +1,88 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\rapto\\OneDrive\\Desktop\\game_invites_backend\\docs\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\rapto\\OneDrive\\Desktop\\game_invites_backend\\docs\\ENDPOINTS_CHEATSHEET.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:ENDPOINTS_CHEATSHEET.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\rapto\\OneDrive\\Desktop\\game_invites_backend\\docs\\ENDPOINTS_BY_TOKEN.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:ENDPOINTS_BY_TOKEN.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\rapto\\OneDrive\\Desktop\\game_invites_backend\\docs\\API_REFERENCE.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:API_REFERENCE.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\rapto\\OneDrive\\Desktop\\game_invites_backend\\docs\\AI_ASSISTANT_GUIDE.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:AI_ASSISTANT_GUIDE.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ENDPOINTS_CHEATSHEET.md",
+              "DocumentMoniker": "C:\\Users\\rapto\\OneDrive\\Desktop\\game_invites_backend\\docs\\ENDPOINTS_CHEATSHEET.md",
+              "RelativeDocumentMoniker": "ENDPOINTS_CHEATSHEET.md",
+              "ToolTip": "C:\\Users\\rapto\\OneDrive\\Desktop\\game_invites_backend\\docs\\ENDPOINTS_CHEATSHEET.md",
+              "RelativeToolTip": "ENDPOINTS_CHEATSHEET.md",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2025-10-23T16:01:40.232Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ENDPOINTS_BY_TOKEN.md",
+              "DocumentMoniker": "C:\\Users\\rapto\\OneDrive\\Desktop\\game_invites_backend\\docs\\ENDPOINTS_BY_TOKEN.md",
+              "RelativeDocumentMoniker": "ENDPOINTS_BY_TOKEN.md",
+              "ToolTip": "C:\\Users\\rapto\\OneDrive\\Desktop\\game_invites_backend\\docs\\ENDPOINTS_BY_TOKEN.md",
+              "RelativeToolTip": "ENDPOINTS_BY_TOKEN.md",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2025-10-23T16:01:39.321Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "API_REFERENCE.md",
+              "DocumentMoniker": "C:\\Users\\rapto\\OneDrive\\Desktop\\game_invites_backend\\docs\\API_REFERENCE.md",
+              "RelativeDocumentMoniker": "API_REFERENCE.md",
+              "ToolTip": "C:\\Users\\rapto\\OneDrive\\Desktop\\game_invites_backend\\docs\\API_REFERENCE.md",
+              "RelativeToolTip": "API_REFERENCE.md",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2025-10-23T16:01:35.732Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AI_ASSISTANT_GUIDE.md",
+              "DocumentMoniker": "C:\\Users\\rapto\\OneDrive\\Desktop\\game_invites_backend\\docs\\AI_ASSISTANT_GUIDE.md",
+              "RelativeDocumentMoniker": "AI_ASSISTANT_GUIDE.md",
+              "ToolTip": "C:\\Users\\rapto\\OneDrive\\Desktop\\game_invites_backend\\docs\\AI_ASSISTANT_GUIDE.md",
+              "RelativeToolTip": "AI_ASSISTANT_GUIDE.md",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2025-10-23T16:01:31.708Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

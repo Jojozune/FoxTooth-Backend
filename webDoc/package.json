@@ -1,0 +1,16 @@
+{
+  "name": "game-invites-docs",
+  "version": "2.0.0",
+  "description": "Interactive documentation website for Game Invites Backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["documentation", "api", "game"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

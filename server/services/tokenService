@@ -1,0 +1,237 @@
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
+const JWT_CONFIG = require('../config/jwt');
+const db = require('../config/database');
+
+// Generate JWT access token
+function generateAccessToken(playerData) {
+  return jwt.sign(
+    {
+      playerId: playerData.id,
+      displayName: playerData.display_name,
+      playerTag: playerData.player_tag
+    },
+    JWT_CONFIG.secret,
+    { expiresIn: JWT_CONFIG.accessExpiresIn }
+  );
+}
+
+// Generate refresh token and store hashed version in database
+async function generateRefreshToken(playerId) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const refreshToken = crypto.randomBytes(40).toString('hex');
+      const tokenHash = await bcrypt.hash(refreshToken, 12);
+      
+      const expiresAt = new Date();
+      expiresAt.setDate(expiresAt.getDate() + 7);
+      
+      const query = `
+        INSERT INTO refresh_tokens (player_id, token_hash, expires_at) 
+        VALUES (?, ?, ?)
+      `;
+      
+      db.execute(query, [playerId, tokenHash, expiresAt], (err, results) => {
+        if (err) {
+          console.error('❌ Failed to store refresh token:', err);
+          reject(err);
+        } else {
+          console.log('✅ Refresh token stored for player:', playerId);
+          resolve(refreshToken);
+        }
+      });
+    } catch (error) {
+      console.error('❌ Error generating refresh token:', error);
+      reject(error);
+    }
+  });
+}
+
+// Verify refresh token
+async function verifyRefreshToken(refreshToken, playerId) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const query = `
+        SELECT id, token_hash, expires_at 
+        FROM refresh_tokens 
+        WHERE player_id = ? AND expires_at > NOW() 
+        ORDER BY created_at DESC 
+        LIMIT 1
+      `;
+      
+      db.execute(query, [playerId], async (err, results) => {
+        if (err) {
+          console.error('❌ Database error verifying refresh token:', err);
+          reject(err);
+          return;
+        }
+        
+        if (results.length === 0) {
+          console.log('❌ No valid refresh token found for player:', playerId);
+          resolve(null);
+          return;
+        }
+        
+        const storedToken = results[0];
+        const isValid = await bcrypt.compare(refreshToken, storedToken.token_hash);
+        
+        if (isValid) {
+          console.log('✅ Refresh token valid for player:', playerId);
+          const playerQuery = `SELECT id, display_name, player_tag FROM players WHERE id = ?`;
+          db.execute(playerQuery, [playerId], (playerErr, playerResults) => {
+            if (playerErr || playerResults.length === 0) {
+              console.error('❌ Player not found:', playerId);
+              resolve(null);
+              return;
+            }
+            resolve(playerResults[0]);
+          });
+        } else {
+          console.log('❌ Refresh token invalid for player:', playerId);
+          resolve(null);
+        }
+      });
+    } catch (error) {
+      console.error('❌ Error verifying refresh token:', error);
+      reject(error);
+    }
+  });
+}
+
+// Clean up expired refresh tokens
+function cleanupExpiredRefreshTokens() {
+  const query = `DELETE FROM refresh_tokens WHERE expires_at < NOW()`;
+  db.execute(query, (err, results) => {
+    if (err) {
+      console.error('❌ Failed to cleanup expired refresh tokens:', err);
+    } else if (results.affectedRows > 0) {
+      console.log('✅ Cleaned up expired refresh tokens:', results.affectedRows);
+    }
+  });
+}
+
+// --- Remember-me token support ---
+// Generate a long-lived remember-me token (stored hashed in DB)
+async function generateRememberToken(playerId) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const rememberToken = crypto.randomBytes(48).toString('hex');
+      const tokenHash = await bcrypt.hash(rememberToken, 12);
+
+      const expiresAt = new Date();
+      // Remember-me tokens valid for 30 days
+      expiresAt.setDate(expiresAt.getDate() + 30);
+
+      const query = `
+        INSERT INTO remember_tokens (player_id, token_hash, expires_at)
+        VALUES (?, ?, ?)
+      `;
+
+      db.execute(query, [playerId, tokenHash, expiresAt], (err, results) => {
+        if (err) {
+          console.error('❌ Failed to store remember token:', err);
+          reject(err);
+        } else {
+          console.log('✅ Remember token stored for player:', playerId);
+          resolve(rememberToken);
+        }
+      });
+    } catch (error) {
+      console.error('❌ Error generating remember token:', error);
+      reject(error);
+    }
+  });
+}
+
+// Verify a remember token for a player. Returns player row on success, null otherwise.
+async function verifyRememberToken(rememberToken, playerId) {
+  return new Promise((resolve, reject) => {
+    try {
+      const query = `
+        SELECT id, token_hash, expires_at
+        FROM remember_tokens
+        WHERE player_id = ? AND expires_at > NOW()
+        ORDER BY created_at DESC
+      `;
+
+      db.execute(query, [playerId], async (err, results) => {
+        if (err) {
+          console.error('❌ Database error verifying remember token:', err);
+          reject(err);
+          return;
+        }
+
+        if (results.length === 0) {
+          console.log('❌ No valid remember token rows for player:', playerId);
+          resolve(null);
+          return;
+        }
+
+        // Compare against all stored (non-expired) tokens for the player
+        for (const row of results) {
+          /* eslint-disable no-await-in-loop */
+          const isValid = await bcrypt.compare(rememberToken, row.token_hash);
+          if (isValid) {
+            console.log('✅ Remember token valid for player:', playerId);
+            const playerQuery = `SELECT id, display_name, player_tag FROM players WHERE id = ?`;
+            db.execute(playerQuery, [playerId], (playerErr, playerResults) => {
+              if (playerErr || playerResults.length === 0) {
+                console.error('❌ Player not found while verifying remember token:', playerId);
+                resolve(null);
+                return;
+              }
+              resolve(playerResults[0]);
+            });
+            return;
+          }
+        }
+
+        console.log('❌ Remember token did not match any stored token for player:', playerId);
+        resolve(null);
+      });
+    } catch (error) {
+      console.error('❌ Error verifying remember token:', error);
+      reject(error);
+    }
+  });
+}
+
+// Delete all remember tokens for a player (used on explicit sign-out)
+function deleteRememberTokensForPlayer(playerId) {
+  return new Promise((resolve, reject) => {
+    const query = `DELETE FROM remember_tokens WHERE player_id = ?`;
+    db.execute(query, [playerId], (err, results) => {
+      if (err) {
+        console.error('❌ Failed to delete remember tokens for player:', err);
+        return reject(err);
+      }
+      console.log('✅ Deleted remember tokens for player:', playerId);
+      resolve(results);
+    });
+  });
+}
+
+// Clean up expired remember tokens
+function cleanupExpiredRememberTokens() {
+  const query = `DELETE FROM remember_tokens WHERE expires_at < NOW()`;
+  db.execute(query, (err, results) => {
+    if (err) {
+      console.error('❌ Failed to cleanup expired remember tokens:', err);
+    } else if (results.affectedRows > 0) {
+      console.log('✅ Cleaned up expired remember tokens:', results.affectedRows);
+    }
+  });
+}
+
+module.exports = {
+  generateAccessToken,
+  generateRefreshToken,
+  verifyRefreshToken,
+  cleanupExpiredRefreshTokens,
+  // Remember-me token API
+  generateRememberToken,
+  verifyRememberToken,
+  deleteRememberTokensForPlayer,
+  cleanupExpiredRememberTokens
+};
