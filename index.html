@@ -699,66 +699,67 @@
 
         <!-- Technical Architecture Section -->
         <section>
-            <h2>Technical Architecture</h2>
+            <h2>Enterprise Architecture</h2>
+            <p style="margin-bottom: 30px; color: #495159; font-size: 1.05rem;">Built from the ground up for production game backends. Every system designed for reliability, security, and scale.</p>
             <div class="features-grid">
                 <div class="doc-card">
                     <h3>🏗️ Scalable Design</h3>
-                    <p>Built with Node.js and Express for high-performance request handling. Load-balanced architecture supports thousands of concurrent players.</p>
+                    <p>Built with Node.js and Express for high-performance request handling. Load-balanced architecture supports thousands of concurrent players with horizontal scaling.</p>
                     <ul>
-                        <li>Horizontal scaling ready</li>
-                        <li>Database connection pooling</li>
+                        <li>Connection pooling for database efficiency</li>
+                        <li>Stateless design for easy horizontal scaling</li>
                         <li>CDN-compatible static assets</li>
-                        <li>Multi-region support</li>
+                        <li>Multi-region deployment ready</li>
                     </ul>
                 </div>
                 <div class="doc-card">
-                    <h3>🔐 Enterprise Security</h3>
-                    <p>Military-grade security with JWT authentication, bcrypt password hashing, and comprehensive validation.</p>
+                    <h3>🔐 Military-Grade Security</h3>
+                    <p>Enterprise-level security with multiple layers of protection. Every endpoint validates input and every password is cryptographically hashed.</p>
                     <ul>
-                        <li>JWT token-based auth</li>
-                        <li>Bcrypt password hashing</li>
-                        <li>SQL injection prevention</li>
-                        <li>Rate limiting & DDoS protection</li>
+                        <li>JWT token-based authentication with refresh tokens</li>
+                        <li>Bcrypt password hashing (not salted, truly hashed)</li>
+                        <li>SQL injection prevention via parameterized queries</li>
+                        <li>Rate limiting & DDoS protection ready</li>
                     </ul>
                 </div>
                 <div class="doc-card">
                     <h3>⚡ Real-Time Multiplayer</h3>
-                    <p>WebSocket integration for instant player-to-player communication and live game state synchronization.</p>
+                    <p>WebSocket-first architecture for instant player-to-player communication. Live game state sync without polling overhead.</p>
                     <ul>
-                        <li>WebSocket server included</li>
-                        <li>Real-time friend notifications</li>
-                        <li>Live game state sync</li>
-                        <li>Graceful disconnection handling</li>
+                        <li>Socket.io WebSocket server included</li>
+                        <li>Real-time friend notifications & status</li>
+                        <li>Automatic reconnection handling</li>
+                        <li>Message queuing for reliability</li>
                     </ul>
                 </div>
                 <div class="doc-card">
-                    <h3>💾 Database Optimized</h3>
-                    <p>PostgreSQL with optimized queries, migrations, and backup systems for production reliability.</p>
+                    <h3>💾 PostgreSQL Optimized</h3>
+                    <p>Professional relational database with optimized queries, full migrations, and backup systems for zero data loss.</p>
                     <ul>
-                        <li>PostgreSQL with full migrations</li>
-                        <li>Indexed queries for performance</li>
-                        <li>Automated backups</li>
-                        <li>Data integrity constraints</li>
+                        <li>PostgreSQL 13+ with indexes on hot queries</li>
+                        <li>Full migration system for schema updates</li>
+                        <li>Automated backup & recovery procedures</li>
+                        <li>ACID transactions for data integrity</li>
                     </ul>
                 </div>
                 <div class="doc-card">
-                    <h3>🚀 Deployment Ready</h3>
-                    <p>Docker containers, CI/CD integration, and health checks for seamless production deployment.</p>
+                    <h3>🚀 Docker & Deployment</h3>
+                    <p>Production-ready deployment with Docker containers, health checks, and zero-downtime updates.</p>
                     <ul>
-                        <li>Docker containerization</li>
-                        <li>Environment configuration</li>
-                        <li>Health check endpoints</li>
-                        <li>Logging & monitoring</li>
+                        <li>Dockerfile with optimized layers</li>
+                        <li>Health check endpoints for monitoring</li>
+                        <li>Environment-based configuration</li>
+                        <li>PM2 process management included</li>
                     </ul>
                 </div>
                 <div class="doc-card">
-                    <h3>📊 Analytics Ready</h3>
-                    <p>Built-in logging and monitoring for player behavior, performance metrics, and error tracking.</p>
+                    <h3>📊 Observability & Logging</h3>
+                    <p>Complete visibility into your backend with structured logging and performance metrics.</p>
                     <ul>
-                        <li>Structured logging</li>
-                        <li>Performance metrics</li>
-                        <li>Error tracking</li>
-                        <li>User analytics endpoints</li>
+                        <li>Winston structured logging framework</li>
+                        <li>Morgan HTTP request logging</li>
+                        <li>Custom performance metrics</li>
+                        <li>Error tracking and alerting ready</li>
                     </ul>
                 </div>
             </div>
@@ -882,34 +883,66 @@
             </div>
         </section>
 
-        <!-- Why Choose FoxTooth Section -->
-        <section>
-            <h2>Why Choose FoxTooth?</h2>
-            <div class="features-grid">
-                <div class="doc-card">
-                    <h3>🎯 Game-First Design</h3>
-                    <p>Built specifically for game developers, not adapted from other systems. Every feature designed with gameplay in mind.</p>
+        <!-- Why FoxTooth Section -->
+        <section style="background: linear-gradient(135deg, #f7f9f9 0%, #f0f2f5 100%); padding: 60px 40px; margin: 40px 0;">
+            <h2 style="text-align: center; margin-bottom: 40px; color: #000000;">Why FoxTooth Exists</h2>
+            
+            <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px;">
+                <!-- The Problem Column -->
+                <div style="background: white; padding: 30px; border-radius: 8px; border-left: 5px solid #db7c26; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                    <h3 style="color: #000000; margin-bottom: 20px; font-size: 1.3rem;">The Problem</h3>
+                    <p style="color: #495159; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;"><strong>Steam's friend system is broken for game developers.</strong> I built FoxTooth because I was frustrated by these limitations:</p>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #e0e0e0; color: #495159;">
+                            <span style="color: #db7c26; font-weight: bold; font-size: 0.95rem;">❌ Inflexible UI</span><br/>
+                            <span style="font-size: 0.9rem; display: block; margin-top: 4px;">Steam's friend invite interface is locked in stone. You can't customize it, brand it, or make it match your game. You're stuck with their design choices from 2003.</span>
+                        </li>
+                        <li style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #e0e0e0; color: #495159;">
+                            <span style="color: #db7c26; font-weight: bold; font-size: 0.95rem;">❌ Navigation Nightmare</span><br/>
+                            <span style="font-size: 0.9rem; display: block; margin-top: 4px;">Players have to navigate through multiple overlays and menus just to find a friend. Your game can't directly show who's available. Invite codes are clunky and error-prone.</span>
+                        </li>
+                        <li style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #e0e0e0; color: #495159;">
+                            <span style="color: #db7c26; font-weight: bold; font-size: 0.95rem;">❌ No Game Control</span><br/>
+                            <span style="font-size: 0.9rem; display: block; margin-top: 4px;">You can't detect who's playing your game right now. You can't show player status in real-time. You can't create game-specific friend groups or custom invite flows.</span>
+                        </li>
+                        <li style="margin-bottom: 0; color: #495159;">
+                            <span style="color: #db7c26; font-weight: bold; font-size: 0.95rem;">❌ Vendor Lock-in</span><br/>
+                            <span style="font-size: 0.9rem; display: block; margin-top: 4px;">Built your entire social system on Steam? Good luck moving to another platform. Your players' friend relationships are Steam's property, not yours.</span>
+                        </li>
+                    </ul>
                 </div>
-                <div class="doc-card">
-                    <h3>📖 Complete Documentation</h3>
-                    <p>25+ comprehensive guides covering deployment, security, API reference, and client integration examples.</p>
+
+                <!-- The Solution Column -->
+                <div style="background: white; padding: 30px; border-radius: 8px; border-left: 5px solid #000000; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                    <h3 style="color: #000000; margin-bottom: 20px; font-size: 1.3rem;">The FoxTooth Solution</h3>
+                    <p style="color: #495159; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;"><strong>FoxTooth flips the script.</strong> You own your friend system, completely. No compromises.</p>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #e0e0e0; color: #495159;">
+                            <span style="color: #000000; font-weight: bold; font-size: 0.95rem;">✅ Full Customization</span><br/>
+                            <span style="font-size: 0.9rem; display: block; margin-top: 4px;">Design your own invite UI. Add custom invite types like "Want to raid?" or "Join my clan?" Brand it exactly how you want. It's your game, your rules.</span>
+                        </li>
+                        <li style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #e0e0e0; color: #495159;">
+                            <span style="color: #000000; font-weight: bold; font-size: 0.95rem;">✅ Real-Time Everything</span><br/>
+                            <span style="font-size: 0.9rem; display: block; margin-top: 4px;">WebSocket integration means friend status updates instantly. Players see who's online, who's playing your game, who's idle—all in real-time, no refresh needed.</span>
+                        </li>
+                        <li style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #e0e0e0; color: #495159;">
+                            <span style="color: #000000; font-weight: bold; font-size: 0.95rem;">✅ Seamless Game Integration</span><br/>
+                            <span style="font-size: 0.9rem; display: block; margin-top: 4px;">Your game talks directly to your backend. Know exactly who's available for multiplayer. Auto-populate lobbies. Create social features that feel native to your game.</span>
+                        </li>
+                        <li style="margin-bottom: 0; color: #495159;">
+                            <span style="color: #000000; font-weight: bold; font-size: 0.95rem;">✅ Complete Developer Control</span><br/>
+                            <span style="font-size: 0.9rem; display: block; margin-top: 4px;">Open source backend. Run it on your servers or ours. No licensing fees. No API blacklists. This is YOUR infrastructure, built by developers, for developers.</span>
+                        </li>
+                    </ul>
                 </div>
-                <div class="doc-card">
-                    <h3>⚙️ Zero Configuration</h3>
-                    <p>Deploy with sensible defaults immediately or customize every aspect. Works out-of-the-box for most use cases.</p>
-                </div>
-                <div class="doc-card">
-                    <h3>🔄 Backward Compatible</h3>
-                    <p>Updates maintain compatibility with existing game clients. Your players won't experience breaking changes.</p>
-                </div>
-                <div class="doc-card">
-                    <h3>📞 Developer Support</h3>
-                    <p>Active maintenance, regular updates, and comprehensive troubleshooting guides for quick issue resolution.</p>
-                </div>
-                <div class="doc-card">
-                    <h3>💰 Cost Effective</h3>
-                    <p>Open source and self-hostable. No per-user fees or surprise billing. Full control over infrastructure costs.</p>
-                </div>
+            </div>
+
+            <!-- The Bigger Picture -->
+            <div style="background: white; padding: 40px; border-radius: 8px; border-top: 4px solid #db7c26; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center;">
+                <h3 style="color: #000000; margin-bottom: 15px; font-size: 1.2rem;">What This Means For You</h3>
+                <p style="color: #495159; line-height: 1.8; font-size: 0.95rem; max-width: 900px; margin: 0 auto;">
+                    FoxTooth is built for developers who refuse to be locked into someone else's vision. Whether you're making a competitive FPS, a cozy co-op experience, or a massive multiplayer world—you should own your player relationships. You should control the social experience. You should have the freedom to innovate. That's what FoxTooth enables. <strong>Your game, your rules, your backend.</strong>
+                </p>
             </div>
         </section>
 
