@@ -14,6 +14,46 @@
             box-sizing: border-box;
         }
 
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(219, 124, 38, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 20px 10px rgba(219, 124, 38, 0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
         body {
             font-family: 'Source Sans Pro', sans-serif;
             color: #495159;
@@ -22,7 +62,7 @@
         }
 
         header {
-            background: linear-gradient(135deg, #2e0014 0%, #495159 100%);
+            background: linear-gradient(135deg, #000000 0%, #495159 100%);
             color: #f7f9f9;
             padding: 80px 20px;
             text-align: center;
@@ -35,6 +75,7 @@
             font-weight: 800;
             margin-bottom: 10px;
             text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.8s ease-out;
         }
 
         header .subtitle {
@@ -42,12 +83,14 @@
             font-weight: 600;
             opacity: 0.95;
             margin-bottom: 15px;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
         }
 
         header .status {
             font-size: 1rem;
             opacity: 0.85;
             letter-spacing: 0.5px;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
         }
 
         .accent {
@@ -70,7 +113,7 @@
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 30px;
-            color: #2e0014;
+            color: #000000;
             padding-bottom: 15px;
             border-bottom: 3px solid #db7c26;
             display: inline-block;
@@ -80,7 +123,7 @@
             font-family: 'Poppins', sans-serif;
             font-size: 1.4rem;
             font-weight: 700;
-            color: #2e0014;
+            color: #000000;
             margin-top: 35px;
             margin-bottom: 20px;
         }
@@ -93,18 +136,36 @@
         }
 
         .quick-link-card {
-            background: linear-gradient(135deg, #2e0014 0%, #495159 100%);
+            background: linear-gradient(135deg, #000000 0%, #495159 100%);
             color: #f7f9f9;
             padding: 30px;
             border-radius: 10px;
             border-left: 5px solid #db7c26;
             transition: all 0.3s ease;
             cursor: pointer;
+            animation: fadeInUp 0.6s ease-out both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quick-link-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .quick-link-card:hover::before {
+            left: 100%;
         }
 
         .quick-link-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(219, 124, 38, 0.2);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(219, 124, 38, 0.3);
         }
 
         .quick-link-card .title {
@@ -113,11 +174,15 @@
             margin-bottom: 10px;
             font-size: 1.2rem;
             font-weight: 700;
+            position: relative;
+            z-index: 1;
         }
 
         .quick-link-card .description {
             font-size: 0.95rem;
             opacity: 0.95;
+            position: relative;
+            z-index: 1;
         }
 
         .endpoint-grid {
@@ -138,7 +203,9 @@
         }
 
         .endpoint-card:hover {
-            box-shadow: 0 4px 16px rgba(219, 124, 38, 0.15);
+            box-shadow: 0 8px 24px rgba(219, 124, 38, 0.2);
+            transform: translateY(-4px);
+            border-left-color: #ff9800;
         }
 
         .endpoint-method {
@@ -150,14 +217,15 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 8px;
-            background: #db7c26;
+            background: linear-gradient(135deg, #db7c26 0%, #c9651c 100%);
             color: white;
+            animation: slideIn 0.5s ease-out;
         }
 
         .endpoint-path {
             display: block;
             font-family: 'Courier New', monospace;
-            color: #2e0014;
+            color: #000000;
             font-weight: 600;
             margin-bottom: 8px;
             font-size: 0.95rem;
@@ -185,12 +253,13 @@
         }
 
         .doc-card:hover {
-            box-shadow: 0 8px 24px rgba(219, 124, 38, 0.15);
-            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(219, 124, 38, 0.2);
+            transform: translateY(-6px);
+            border-left-color: #ff9800;
         }
 
         .doc-card h3 {
-            color: #2e0014;
+            color: #000000;
             margin-bottom: 10px;
         }
 
@@ -221,7 +290,7 @@
         }
 
         .stats-section {
-            background: linear-gradient(135deg, #2e0014 0%, #495159 100%);
+            background: linear-gradient(135deg, #000000 0%, #495159 100%);
             color: #f7f9f9;
             padding: 60px 20px;
             border-radius: 10px;
@@ -249,6 +318,7 @@
             font-weight: 800;
             color: #db7c26;
             margin-bottom: 10px;
+            animation: pulse 2s ease-in-out infinite;
         }
 
         .stat-label {
@@ -304,7 +374,7 @@
 
         .cta-button {
             display: inline-block;
-            background: #2e0014;
+            background: #000000;
             color: #db7c26;
             padding: 15px 40px;
             border-radius: 5px;
@@ -313,16 +383,36 @@
             margin-top: 20px;
             transition: all 0.3s ease;
             font-family: 'Poppins', sans-serif;
-            border: 2px solid #2e0014;
+            border: 2px solid #000000;
+            position: relative;
+            overflow: hidden;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100%;
+            background: #db7c26;
+            z-index: -1;
+            transition: right 0.3s ease;
         }
 
         .cta-button:hover {
-            background: transparent;
-            color: #f7f9f9;
+            right: 0;
+            color: #000000;
+            box-shadow: 0 8px 20px rgba(219, 124, 38, 0.3);
+        }
+
+        .cta-button:hover::before {
+            right: 0;
         }
 
         footer {
-            background: #2e0014;
+            background: #000000;
             color: #f7f9f9;
             text-align: center;
             padding: 30px 20px;
@@ -355,7 +445,7 @@
         }
 
         .tech-box h3 {
-            color: #2e0014;
+            color: #000000;
             margin-bottom: 15px;
             margin-top: 0;
         }
@@ -464,12 +554,12 @@
                     <div class="stat-label">Test Coverage</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number">&lt;100ms</div>
-                    <div class="stat-label">Response Time</div>
+                    <div class="stat-number">25+</div>
+                    <div class="stat-label">Documentation Pages</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number">99.9%</div>
-                    <div class="stat-label">Uptime SLA</div>
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Vendor Lock-in</div>
                 </div>
             </div>
         </section>
@@ -754,7 +844,7 @@
                     </ul>
                 </div>
                 <div class="roadmap-phase">
-                    <div class="phase-header" style="background: #2e0014;">Q3 2026 - Future</div>
+                    <div class="phase-header" style="background: #000000;">Q3 2026 - Future</div>
                     <ul style="list-style: none; margin-left: 0;">
                         <li style="padding: 8px 0; color: #495159;"><strong>🤖 AI-Powered Matchmaking</strong> - Machine learning for skill-based player matching</li>
                         <li style="padding: 8px 0; color: #495159;"><strong>🌍 Global CDN Integration</strong> - Multi-region edge servers for optimal latency</li>
@@ -767,27 +857,27 @@
 
         <!-- Performance & Reliability Section -->
         <section>
-            <h2>Performance & Reliability</h2>
+            <h2>Architecture & Capabilities</h2>
             <div class="perf-grid">
                 <div class="perf-box">
-                    <div class="perf-number">&lt;100ms</div>
-                    <div class="perf-label">Average Response Time</div>
-                    <div class="perf-note">p95: &lt;250ms under normal load</div>
+                    <div class="perf-number">🏗️</div>
+                    <div class="perf-label">Production-Grade Design</div>
+                    <div class="perf-note">Built for enterprise-scale multiplayer games</div>
                 </div>
                 <div class="perf-box">
-                    <div class="perf-number">99.9%</div>
-                    <div class="perf-label">Uptime SLA</div>
-                    <div class="perf-note">Production deployment target</div>
+                    <div class="perf-number">⚡</div>
+                    <div class="perf-label">Optimized Performance</div>
+                    <div class="perf-note">Connection pooling, indexed queries, caching ready</div>
                 </div>
                 <div class="perf-box">
-                    <div class="perf-number">10K+</div>
-                    <div class="perf-label">Concurrent Players</div>
-                    <div class="perf-note">Per server instance</div>
+                    <div class="perf-number">🔐</div>
+                    <div class="perf-label">Enterprise Security</div>
+                    <div class="perf-note">JWT auth, bcrypt hashing, SQL injection prevention</div>
                 </div>
                 <div class="perf-box">
-                    <div class="perf-number">Zero</div>
-                    <div class="perf-label">Data Loss Incidents</div>
-                    <div class="perf-note">In production deployment</div>
+                    <div class="perf-number">📊</div>
+                    <div class="perf-label">Scalable Architecture</div>
+                    <div class="perf-note">Horizontal scaling, load balancing ready, multi-region support</div>
                 </div>
             </div>
         </section>
