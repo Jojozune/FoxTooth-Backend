@@ -98,13 +98,19 @@
         }
 
         .top-nav {
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             background: linear-gradient(90deg, #000000 0%, #1a1a1a 100%);
             border-bottom: 2px solid #db7c26;
             padding: 12px 20px;
             z-index: 1000;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            padding-top: 50px;
         }
 
         .top-nav-content {
