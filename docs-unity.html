@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoxTooth Backend - Unity Integration Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Source+Sans+Pro:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            color: #495159;
+            background: linear-gradient(135deg, #f7f9f9 0%, #ffffff 100%);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #000000 0%, #495159 100%);
+            color: #f7f9f9;
+            padding: 50px 20px;
+            text-align: center;
+            border-bottom: 4px solid #db7c26;
+        }
+
+        header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .accent {
+            color: #db7c26;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .nav-button {
+            display: inline-block;
+            background: #495159;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .nav-button:hover {
+            background: #000000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        section {
+            margin: 50px 0;
+        }
+
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 15px;
+            border-bottom: 3px solid #db7c26;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #000000;
+            margin: 30px 0 15px 0;
+        }
+
+        h4 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #000000;
+            margin: 20px 0 10px 0;
+        }
+
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border: 1px solid #333;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .code-label {
+            display: inline-block;
+            background: #db7c26;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .note {
+            background: #fffbea;
+            border-left: 4px solid #fbc02d;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .note strong {
+            color: #f57f17;
+        }
+
+        .tip {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .tip strong {
+            color: #2e7d32;
+        }
+
+        .warning {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .warning strong {
+            color: #c62828;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .card h4 {
+            margin-top: 0;
+        }
+
+        .step {
+            background: white;
+            border-left: 5px solid #db7c26;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #db7c26;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: 700;
+            margin-right: 10px;
+        }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background: #f5f5f5;
+            font-weight: 700;
+            color: #000000;
+        }
+
+        tr:hover {
+            background: #fafafa;
+        }
+
+        footer {
+            background: #000000;
+            color: #f7f9f9;
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 4px solid #db7c26;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #db7c26;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>FoxTooth <span class="accent">Unity Integration</span></h1>
+        <p>Complete Guide for Unity Game Engine - C# Implementation</p>
+    </header>
+
+    <div class="container">
+        <a href="docs-hub.html" class="nav-button">← Back to Documentation Hub</a>
+
+        <section>
+            <h2>Quick Overview</h2>
+            <p>This guide provides step-by-step instructions for integrating FoxTooth Backend into your Unity game. Includes complete C# code samples for authentication, friends system, and game invites.</p>
+
+            <div class="note">
+                <strong>📋 Requirements:</strong> Unity 2020 LTS or newer, .NET 4.x or higher scripting runtime
+            </div>
+        </section>
+
+        <section>
+            <h2>Installation & Setup</h2>
+
+            <div class="step">
+                <span class="step-number">1</span>
+                <h3 style="display: inline;">Create Backend Manager Script</h3>
+                <p>Create a new C# script called <code>GameBackendManager.cs</code> in your Assets folder:</p>
+
+                <div class="code-label">GameBackendManager.cs</div>
+                <div class="code-block">
+using UnityEngine;
+using UnityEngine.Networking;
+using System.Collections;
+using System.Collections.Generic;
+
+public class GameBackendManager : MonoBehaviour
+{
+    public static GameBackendManager Instance { get; private set; }
+    
+    private const string API_BASE_URL = "http://localhost:7777";
+    
+    private string accessToken = "";
+    private string refreshToken = "";
+    private string rememberToken = "";
+    private int playerId = 0;
+    
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+    
+    private void Start()
+    {
+        LoadSavedTokens();
+    }
+    
+    private void SaveTokens()
+    {
+        PlayerPrefs.SetString("access_token", accessToken);
+        PlayerPrefs.SetString("refresh_token", refreshToken);
+        PlayerPrefs.SetString("remember_token", rememberToken);
+        PlayerPrefs.SetInt("player_id", playerId);
+        PlayerPrefs.Save();
+    }
+    
+    private void LoadSavedTokens()
+    {
+        accessToken = PlayerPrefs.GetString("access_token", "");
+        refreshToken = PlayerPrefs.GetString("refresh_token", "");
+        rememberToken = PlayerPrefs.GetString("remember_token", "");
+        playerId = PlayerPrefs.GetInt("player_id", 0);
+    }
+    
+    private void ClearTokens()
+    {
+        accessToken = "";
+        refreshToken = "";
+        rememberToken = "";
+        playerId = 0;
+        
+        PlayerPrefs.DeleteKey("access_token");
+        PlayerPrefs.DeleteKey("refresh_token");
+        PlayerPrefs.DeleteKey("remember_token");
+        PlayerPrefs.DeleteKey("player_id");
+        PlayerPrefs.Save();
+    }
+}
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Authentication System</h2>
+
+            <div class="step">
+                <span class="step-number">2</span>
+                <h3 style="display: inline;">Account Creation</h3>
+
+                <p>Add this method to create new player accounts:</p>
+
+                <div class="code-label">Create Account Method</div>
+                <div class="code-block">
+[System.Serializable]
+public class CreateAccountRequest
+{
+    public string display_name;
+    public string player_tag;
+    public string email;
+    public string password;
+}
+
+public IEnumerator CreateAccount(
+    string displayName, 
+    string playerTag, 
+    string email, 
+    string password)
+{
+    var request = new CreateAccountRequest
+    {
+        display_name = displayName,
+        player_tag = playerTag,
+        email = email,
+        password = password
+    };
+    
+    string json = JsonUtility.ToJson(request);
+    
+    using (UnityWebRequest www = new UnityWebRequest(
+        $"{API_BASE_URL}/account/create", "POST"))
+    {
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+        www.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        www.downloadHandler = new DownloadHandlerBuffer();
+        www.SetRequestHeader("Content-Type", "application/json");
+        
+        yield return www.SendWebRequest();
+        
+        if (www.result == UnityWebRequest.Result.Success)
+        {
+            var response = JsonUtility.FromJson&lt;CreateAccountResponse&gt;(
+                www.downloadHandler.text);
+            Debug.Log($"Account created! Player ID: {response.player_id}");
+        }
+        else
+        {
+            Debug.LogError($"Account creation failed: {www.error}");
+        }
+    }
+}
+                </div>
+
+                <div class="tip">
+                    <strong>💡 Tip:</strong> Validate password strength on the client side before sending to server (8+ chars, mixed case, numbers).
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">3</span>
+                <h3 style="display: inline;">Player Login</h3>
+
+                <div class="code-label">Login Method</div>
+                <div class="code-block">
+[System.Serializable]
+public class LoginRequest
+{
+    public string display_name;
+    public string player_tag;
+    public string password;
+    public bool remember_me;
+}
+
+[System.Serializable]
+public class LoginResponse
+{
+    public string status;
+    public int player_id;
+    public string token;
+    public string refresh_token;
+    public string remember_token;
+    public ServerInfo server;
+}
+
+[System.Serializable]
+public class ServerInfo
+{
+    public string ip;
+    public int port;
+}
+
+public IEnumerator Login(
+    string displayName, 
+    string playerTag, 
+    string password, 
+    bool rememberMe = true)
+{
+    var request = new LoginRequest
+    {
+        display_name = displayName,
+        player_tag = playerTag,
+        password = password,
+        remember_me = rememberMe
+    };
+    
+    string json = JsonUtility.ToJson(request);
+    
+    using (UnityWebRequest www = new UnityWebRequest(
+        $"{API_BASE_URL}/account/login", "POST"))
+    {
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+        www.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        www.downloadHandler = new DownloadHandlerBuffer();
+        www.SetRequestHeader("Content-Type", "application/json");
+        
+        yield return www.SendWebRequest();
+        
+        if (www.result == UnityWebRequest.Result.Success)
+        {
+            LoginResponse response = JsonUtility.FromJson&lt;LoginResponse&gt;(
+                www.downloadHandler.text);
+            
+            accessToken = response.token;
+            refreshToken = response.refresh_token;
+            rememberToken = response.remember_token ?? "";
+            playerId = response.player_id;
+            
+            SaveTokens();
+            
+            Debug.Log($"Login successful! Connected to {response.server.ip}:{response.server.port}");
+        }
+        else
+        {
+            Debug.LogError($"Login failed: {www.error}");
+        }
+    }
+}
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">4</span>
+                <h3 style="display: inline;">Token Refresh & Remember Login</h3>
+
+                <div class="code-label">Token Management Methods</div>
+                <div class="code-block">
+public IEnumerator RefreshToken()
+{
+    if (string.IsNullOrEmpty(refreshToken))
+    {
+        Debug.LogError("No refresh token available");
+        yield break;
+    }
+    
+    var request = new { refresh_token = refreshToken, player_id = playerId };
+    string json = JsonUtility.ToJson(request);
+    
+    using (UnityWebRequest www = new UnityWebRequest(
+        $"{API_BASE_URL}/player/refresh-token", "POST"))
+    {
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+        www.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        www.downloadHandler = new DownloadHandlerBuffer();
+        www.SetRequestHeader("Content-Type", "application/json");
+        
+        yield return www.SendWebRequest();
+        
+        if (www.result == UnityWebRequest.Result.Success)
+        {
+            var response = JsonUtility.FromJson&lt;TokenResponse&gt;(
+                www.downloadHandler.text);
+            accessToken = response.token;
+            SaveTokens();
+            Debug.Log("Token refreshed successfully");
+        }
+    }
+}
+
+public IEnumerator RememberLogin()
+{
+    if (string.IsNullOrEmpty(rememberToken))
+    {
+        Debug.LogError("No remember token available");
+        yield break;
+    }
+    
+    var request = new { player_id = playerId, remember_token = rememberToken };
+    string json = JsonUtility.ToJson(request);
+    
+    using (UnityWebRequest www = new UnityWebRequest(
+        $"{API_BASE_URL}/player/remember-login", "POST"))
+    {
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+        www.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        www.downloadHandler = new DownloadHandlerBuffer();
+        www.SetRequestHeader("Content-Type", "application/json");
+        
+        yield return www.SendWebRequest();
+        
+        if (www.result == UnityWebRequest.Result.Success)
+        {
+            var response = JsonUtility.FromJson&lt;LoginResponse&gt;(
+                www.downloadHandler.text);
+            accessToken = response.token;
+            refreshToken = response.refresh_token;
+            SaveTokens();
+            Debug.Log("Auto-login successful!");
+        }
+    }
+}
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Friends System</h2>
+
+            <div class="step">
+                <span class="step-number">5</span>
+                <h3 style="display: inline;">Send & Manage Friend Requests</h3>
+
+                <div class="code-label">Friends System Methods</div>
+                <div class="code-block">
+public IEnumerator SendFriendRequest(int receiverId)
+{
+    var request = new { receiver_id = receiverId };
+    string json = JsonUtility.ToJson(request);
+    
+    using (UnityWebRequest www = new UnityWebRequest(
+        $"{API_BASE_URL}/friends/invite", "POST"))
+    {
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+        www.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        www.downloadHandler = new DownloadHandlerBuffer();
+        www.SetRequestHeader("Content-Type", "application/json");
+        www.SetRequestHeader("Authorization", $"Bearer {accessToken}");
+        
+        yield return www.SendWebRequest();
+        
+        if (www.result == UnityWebRequest.Result.Success)
+        {
+            Debug.Log("Friend request sent!");
+        }
+        else
+        {
+            Debug.LogError($"Failed to send friend request: {www.error}");
+        }
+    }
+}
+
+public IEnumerator AcceptFriendRequest(int friendshipId)
+{
+    var request = new { friendship_id = friendshipId };
+    string json = JsonUtility.ToJson(request);
+    
+    using (UnityWebRequest www = new UnityWebRequest(
+        $"{API_BASE_URL}/friends/accept", "POST"))
+    {
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+        www.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        www.downloadHandler = new DownloadHandlerBuffer();
+        www.SetRequestHeader("Content-Type", "application/json");
+        www.SetRequestHeader("Authorization", $"Bearer {accessToken}");
+        
+        yield return www.SendWebRequest();
+        
+        if (www.result == UnityWebRequest.Result.Success)
+        {
+            Debug.Log("Friend request accepted!");
+        }
+    }
+}
+
+public IEnumerator GetFriendsList()
+{
+    using (UnityWebRequest www = UnityWebRequest.Get(
+        $"{API_BASE_URL}/friends/list/{playerId}"))
+    {
+        www.SetRequestHeader("Authorization", $"Bearer {accessToken}");
+        
+        yield return www.SendWebRequest();
+        
+        if (www.result == UnityWebRequest.Result.Success)
+        {
+            var response = JsonUtility.FromJson&lt;FriendsListResponse&gt;(
+                www.downloadHandler.text);
+            Debug.Log($"Friends: {response.friends.Length}");
+            // Update UI with friends list
+        }
+    }
+}
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Game Invites & Sessions</h2>
+
+            <div class="step">
+                <span class="step-number">6</span>
+                <h3 style="display: inline;">Create & Manage Game Sessions</h3>
+
+                <div class="code-label">Game Session Methods</div>
+                <div class="code-block">
+[System.Serializable]
+public class CreateSessionRequest
+{
+    public string session_name;
+    public int max_players;
+    public string game_mode;
+}
+
+[System.Serializable]
+public class SessionResponse
+{
+    public string session_code;
+    public int session_id;
+    public int host_id;
+}
+
+public IEnumerator CreateGameSession(
+    string sessionName, 
+    int maxPlayers, 
+    string gameMode)
+{
+    var request = new CreateSessionRequest
+    {
+        session_name = sessionName,
+        max_players = maxPlayers,
+        game_mode = gameMode
+    };
+    
+    string json = JsonUtility.ToJson(request);
+    
+    using (UnityWebRequest www = new UnityWebRequest(
+        $"{API_BASE_URL}/session/create", "POST"))
+    {
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+        www.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        www.downloadHandler = new DownloadHandlerBuffer();
+        www.SetRequestHeader("Content-Type", "application/json");
+        www.SetRequestHeader("Authorization", $"Bearer {accessToken}");
+        
+        yield return www.SendWebRequest();
+        
+        if (www.result == UnityWebRequest.Result.Success)
+        {
+            var response = JsonUtility.FromJson&lt;SessionResponse&gt;(
+                www.downloadHandler.text);
+            Debug.Log($"Session created: {response.session_code}");
+            // Store session code for invites
+        }
+    }
+}
+
+public IEnumerator SendGameInvite(int receiverId, string sessionCode)
+{
+    var request = new { receiver_id = receiverId, session_code = sessionCode };
+    string json = JsonUtility.ToJson(request);
+    
+    using (UnityWebRequest www = new UnityWebRequest(
+        $"{API_BASE_URL}/invite/send", "POST"))
+    {
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+        www.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        www.downloadHandler = new DownloadHandlerBuffer();
+        www.SetRequestHeader("Content-Type", "application/json");
+        www.SetRequestHeader("Authorization", $"Bearer {accessToken}");
+        
+        yield return www.SendWebRequest();
+        
+        if (www.result == UnityWebRequest.Result.Success)
+        {
+            Debug.Log("Game invite sent!");
+        }
+    }
+}
+
+public IEnumerator CheckPendingInvites()
+{
+    using (UnityWebRequest www = UnityWebRequest.Get(
+        $"{API_BASE_URL}/invite/check/{playerId}"))
+    {
+        www.SetRequestHeader("Authorization", $"Bearer {accessToken}");
+        
+        yield return www.SendWebRequest();
+        
+        if (www.result == UnityWebRequest.Result.Success)
+        {
+            var response = JsonUtility.FromJson&lt;InvitesResponse&gt;(
+                www.downloadHandler.text);
+            Debug.Log($"Pending invites: {response.invites.Length}");
+            // Update UI with pending invites
+        }
+    }
+}
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Heartbeat & Session Management</h2>
+
+            <div class="step">
+                <span class="step-number">7</span>
+                <h3 style="display: inline;">Keep Player Alive with Heartbeats</h3>
+
+                <p>Implement heartbeat system to keep player connection active:</p>
+
+                <div class="code-label">Heartbeat Manager</div>
+                <div class="code-block">
+private Coroutine heartbeatCoroutine;
+private float heartbeatInterval = 30f; // Send every 30 seconds
+
+private void OnEnable()
+{
+    if (heartbeatCoroutine == null)
+    {
+        heartbeatCoroutine = StartCoroutine(HeartbeatLoop());
+    }
+}
+
+private void OnDisable()
+{
+    if (heartbeatCoroutine != null)
+    {
+        StopCoroutine(heartbeatCoroutine);
+        heartbeatCoroutine = null;
+    }
+}
+
+private IEnumerator HeartbeatLoop()
+{
+    while (true)
+    {
+        yield return new WaitForSeconds(heartbeatInterval);
+        StartCoroutine(SendHeartbeat());
+    }
+}
+
+private IEnumerator SendHeartbeat()
+{
+    using (UnityWebRequest www = new UnityWebRequest(
+        $"{API_BASE_URL}/player/heartbeat", "POST"))
+    {
+        www.uploadHandler = new UploadHandlerRaw(new byte[0]);
+        www.downloadHandler = new DownloadHandlerBuffer();
+        www.SetRequestHeader("Content-Type", "application/json");
+        www.SetRequestHeader("Authorization", $"Bearer {accessToken}");
+        
+        yield return www.SendWebRequest();
+        
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogWarning("Heartbeat failed - player may be disconnected");
+            // Attempt token refresh
+            StartCoroutine(RefreshToken());
+        }
+    }
+}
+                </div>
+
+                <div class="warning">
+                    <strong>⚠️ Important:</strong> Heartbeats MUST be sent every 30 seconds. Without them, the server will mark the player as offline after 120 seconds.
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Best Practices for Unity Integration</h2>
+
+            <div class="card">
+                <h4>🔐 Security</h4>
+                <ul>
+                    <li>Never store tokens in PlayerPrefs - use SecurePrefs or encrypted storage</li>
+                    <li>Use HTTPS only in production builds</li>
+                    <li>Validate all user input before sending to server</li>
+                    <li>Handle token expiration gracefully with refresh logic</li>
+                    <li>Clear tokens on logout or when game exits</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h4>⚡ Performance</h4>
+                <ul>
+                    <li>Use object pooling for frequently created coroutines</li>
+                    <li>Batch API calls when possible to reduce requests</li>
+                    <li>Implement request queuing for rate limit protection</li>
+                    <li>Cache player data locally and sync periodically</li>
+                    <li>Use coroutines efficiently - don't create unnecessary waiting patterns</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h4>🎮 UX Improvements</h4>
+                <ul>
+                    <li>Show loading indicators during API calls</li>
+                    <li>Implement offline mode with local caching</li>
+                    <li>Auto-refresh tokens before they expire</li>
+                    <li>Display friendly error messages to players</li>
+                    <li>Implement exponential backoff for failed requests</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h4>🧪 Testing</h4>
+                <ul>
+                    <li>Create unit tests for token management</li>
+                    <li>Test network failures and timeouts</li>
+                    <li>Verify heartbeat timing and reconnection logic</li>
+                    <li>Load test with multiple concurrent players</li>
+                    <li>Test on actual mobile devices with poor connectivity</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>Common Issues & Solutions</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Issue</th>
+                        <th>Cause</th>
+                        <th>Solution</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>401 Unauthorized</td>
+                        <td>Token expired or invalid</td>
+                        <td>Refresh token automatically, redirect to login if refresh fails</td>
+                    </tr>
+                    <tr>
+                        <td>429 Too Many Requests</td>
+                        <td>Rate limit exceeded</td>
+                        <td>Implement exponential backoff, respect rate limit headers</td>
+                    </tr>
+                    <tr>
+                        <td>Player marked offline immediately</td>
+                        <td>No heartbeats being sent</td>
+                        <td>Enable heartbeat coroutine on Start(), check interval is 30 seconds</td>
+                    </tr>
+                    <tr>
+                        <td>Can't receive invites</td>
+                        <td>Player not online or heartbeat expired</td>
+                        <td>Verify heartbeats are being sent, check player online status</td>
+                    </tr>
+                    <tr>
+                        <td>Session code invalid</td>
+                        <td>Session expired (2 min timeout)</td>
+                        <td>Create new session or extend expiration on backend</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 FoxTooth Backend. Unity Integration Guide.</p>
+        <p><a href="docs-hub.html">Documentation Hub</a> | <a href="index.html">Main Page</a></p>
+    </footer>
+</body>
+</html>

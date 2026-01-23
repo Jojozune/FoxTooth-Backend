@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoxTooth Backend - Complete API Endpoints Reference</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Source+Sans+Pro:wght@400;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            color: #495159;
+            background: linear-gradient(135deg, #f7f9f9 0%, #ffffff 100%);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #000000 0%, #495159 100%);
+            color: #f7f9f9;
+            padding: 50px 20px;
+            text-align: center;
+            border-bottom: 4px solid #db7c26;
+        }
+
+        header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .accent {
+            color: #db7c26;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .nav-button {
+            display: inline-block;
+            background: #495159;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .nav-button:hover {
+            background: #000000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        section {
+            margin: 50px 0;
+        }
+
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 10px;
+            border-bottom: 3px solid #db7c26;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #000000;
+            margin: 30px 0 20px 0;
+        }
+
+        .endpoint {
+            background: white;
+            border-left: 5px solid #db7c26;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .endpoint:hover {
+            box-shadow: 0 8px 24px rgba(219, 124, 38, 0.15);
+            transform: translateX(4px);
+        }
+
+        .endpoint-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .method {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: white;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .method.GET {
+            background: #4CAF50;
+        }
+
+        .method.POST {
+            background: #2196F3;
+        }
+
+        .method.PUT {
+            background: #FF9800;
+        }
+
+        .method.DELETE {
+            background: #f44336;
+        }
+
+        .path {
+            font-family: 'Courier Prime', monospace;
+            font-size: 1rem;
+            color: #000000;
+            font-weight: 600;
+            flex: 1;
+            background: #f5f5f5;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        .auth-badge {
+            display: inline-block;
+            background: #db7c26;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+
+        .description {
+            color: #495159;
+            margin: 15px 0;
+            font-size: 0.95rem;
+        }
+
+        .code-block {
+            background: #f5f5f5;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .label {
+            display: inline-block;
+            background: #e8f4f8;
+            color: #0277bd;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin: 5px 0;
+            margin-right: 5px;
+        }
+
+        .label.request {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .label.response {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .label.error {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background: #f5f5f5;
+            font-weight: 700;
+            color: #000000;
+        }
+
+        tr:hover {
+            background: #fafafa;
+        }
+
+        .note {
+            background: #fffbea;
+            border-left: 4px solid #fbc02d;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .note strong {
+            color: #f57f17;
+        }
+
+        .error-codes {
+            background: white;
+            border-left: 5px solid #f44336;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        footer {
+            background: #000000;
+            color: #f7f9f9;
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 4px solid #db7c26;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #db7c26;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .toc {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin: 30px 0;
+        }
+
+        .toc h3 {
+            margin-top: 0;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .toc li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .toc li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #db7c26;
+            font-weight: bold;
+        }
+
+        .toc a {
+            color: #0277bd;
+            text-decoration: none;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            .endpoint-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .path {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>FoxTooth <span class="accent">API Endpoints</span></h1>
+        <p>Complete REST API Reference - 21+ Endpoints with Examples</p>
+    </header>
+
+    <div class="container">
+        <a href="docs-hub.html" class="nav-button">← Back to Documentation Hub</a>
+
+        <section>
+            <h2>Quick Links</h2>
+            <div class="toc">
+                <h3>Table of Contents</h3>
+                <ul>
+                    <li><a href="#account">Account Management (3 endpoints)</a></li>
+                    <li><a href="#auth">Authentication & Tokens (4 endpoints)</a></li>
+                    <li><a href="#player">Player Management (5 endpoints)</a></li>
+                    <li><a href="#friends">Friends System (4 endpoints)</a></li>
+                    <li><a href="#invites">Game Invites (3 endpoints)</a></li>
+                    <li><a href="#sessions">Game Sessions (2 endpoints)</a></li>
+                    <li><a href="#errors">Error Codes & Responses</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="account">
+            <h2>Account Management</h2>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <div class="method POST">POST</div>
+                    <div class="path">/account/create</div>
+                </div>
+                <div class="description">Create a new player account with email and password</div>
+                <span class="label request">Request</span>
+                <div class="code-block">
+{
+  "display_name": "PlayerName",
+  "player_tag": "#0001",
+  "email": "player@example.com",
+  "password": "SecurePass123"
+}
+                </div>
+                <strong>Validation Rules:</strong>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><code>display_name</code>: 2-20 chars, alphanumeric + underscores</li>
+                    <li><code>player_tag</code>: # + 3-6 uppercase alphanumeric</li>
+                    <li><code>email</code>: valid email format</li>
+                    <li><code>password</code>: 8+ chars, uppercase, lowercase, digit</li>
+                </ul>
+
+                <span class="label response">Success Response (201)</span>
+                <div class="code-block">
+{
+  "status": "success",
+  "player_id": 42,
+  "message": "Account created successfully. Please login."
+}
+                </div>
+
+                <span class="label error">Error Response (400/409)</span>
+                <div class="code-block">
+{
+  "status": "error",
+  "message": "The combination PlayerName#0001 is already taken"
+}
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <div class="method POST">POST</div>
+                    <div class="path">/account/login</div>
+                </div>
+                <div class="description">Authenticate player and receive JWT access/refresh tokens</div>
+                <span class="label request">Request</span>
+                <div class="code-block">
+{
+  "display_name": "PlayerName",
+  "player_tag": "#0001",
+  "password": "SecurePass123",
+  "remember_me": true
+}
+                </div>
+
+                <span class="label response">Success Response (200)</span>
+                <div class="code-block">
+{
+  "status": "success",
+  "player_id": 42,
+  "session_code": "ABC123",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refresh_token": "a1b2c3d4e5f6...",
+  "remember_token": "x9y8z7w6v5u4...",
+  "token_expires_in": "2 hours",
+  "server": {
+    "ip": "192.168.1.100",
+    "port": 7777
+  }
+}
+                </div>
+
+                <div class="note">
+                    <strong>⚠️ Note:</strong> The <code>remember_token</code> is only included if <code>remember_me: true</code>. Store this securely in Keychain/Vault for passwordless login.
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <div class="method POST">POST</div>
+                    <div class="path">/account/connect</div>
+                </div>
+                <div class="description">Reconnect existing player without password</div>
+                <span class="label request">Request</span>
+                <div class="code-block">
+{
+  "display_name": "PlayerName",
+  "player_tag": "#0001",
+  "remember_me": false
+}
+                </div>
+
+                <span class="label response">Success Response (200)</span>
+                <div class="code-block">
+{
+  "status": "success",
+  "player_id": 42,
+  "session_code": "ABC123",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refresh_token": "a1b2c3d4e5f6..."
+}
+                </div>
+            </div>
+        </section>
+
+        <section id="auth">
+            <h2>Authentication & Tokens</h2>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <div class="method GET">GET</div>
+                    <div class="path">/player/validate-token</div>
+                    <span class="auth-badge">REQUIRES AUTH</span>
+                </div>
+                <div class="description">Validate current JWT token</div>
+
+                <strong>Headers:</strong>
+                <div class="code-block">Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...</div>
+
+                <span class="label response">Success Response (200)</span>
+                <div class="code-block">
+{
+  "status": "valid",
+  "player": {
+    "playerId": 42,
+    "displayName": "PlayerName",
+    "playerTag": "#0001"
+  },
+  "message": "Token is valid"
+}
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <div class="method POST">POST</div>
+                    <div class="path">/player/refresh-token</div>
+                </div>
+                <div class="description">Exchange refresh token for new access token</div>
+                <span class="label request">Request</span>
+                <div class="code-block">
+{
+  "refresh_token": "a1b2c3d4e5f6...",
+  "player_id": 42
+}
+                </div>
+
+                <span class="label response">Success Response (200)</span>
+                <div class="code-block">
+{
+  "status": "success",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "token_expires_in": "2 hours"
+}
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <div class="method POST">POST</div>
+                    <div class="path">/player/remember-login</div>
+                </div>
+                <div class="description">Exchange remember token for access + refresh tokens (passwordless)</div>
+                <span class="label request">Request</span>
+                <div class="code-block">
+{
+  "player_id": 42,
+  "remember_token": "x9y8z7w6v5u4..."
+}
+                </div>
+
+                <span class="label response">Success Response (200)</span>
+                <div class="code-block">
+{
+  "status": "success",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refresh_token": "a1b2c3d4e5f6...",
+  "token_expires_in": "2 hours"
+}
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <div class="method POST">POST</div>
+                    <div class="path">/player/logout</div>
+                    <span class="auth-badge">REQUIRES AUTH</span>
+                </div>
+                <div class="description">Logout player and invalidate sessions</div>
+                <strong>Parameters (optional):</strong>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><code>remember_token</code>: Logout this device only (if provided)</li>
+                    <li>No body: Logout globally (all devices)</li>
+                </ul>
+
+                <span class="label response">Success Response (200)</span>
+                <div class="code-block">
+{
+  "status": "success",
+  "message": "Logged out successfully"
+}
+                </div>
+            </div>
+        </section>
+
+        <section id="player">
+            <h2>Player Management</h2>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <div class="method GET">GET</div>
+                    <div class="path">/players</div>
+                </div>
+                <div class="description">Get all online players</div>
+
+                <strong>Query Parameters (optional):</strong>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>exclude_player_id</code></td>
+                            <td>int</td>
+                            <td>Exclude a specific player from results</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <span class="label response">Success Response (200)</span>
+                <div class="code-block">
+{
+  "players": [
+    {
+      "id": 10,
+      "display_name": "Player1",
+      "player_tag": "#0001"
+    },
+    {
+      "id": 20,
+      "display_name": "Player2",
+      "player_tag": "#0002"
+    }
+  ]
+}
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <div class="method GET">GET</div>
+                    <div class="path">/player/lookup</div>
+                </div>
+                <div class="description">Lookup a specific player by name and tag</div>
+
+                <strong>Query Parameters (required):</strong>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>display_name</code></td>
+                            <td>string</td>
+                            <td>Player's display name (URL encoded)</td>
+                        </tr>
+                        <tr>
+                            <td><code>player_tag</code></td>
+                            <td>string</td>
+                            <td>Player's tag (#0001)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <span class="label response">Success Response (200)</span>
+                <div class="code-block">
+{
+  "player_id": 42,
+  "display_name": "PlayerName",
+  "player_tag": "#0001",
+  "is_online": true
+}
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <div class="method POST">POST</div>
+                    <div class="path">/player/disconnect</div>
+                    <span class="auth-badge">REQUIRES AUTH</span>
+                </div>
+                <div class="description">Disconnect player and clean up session</div>
+
+                <span class="label response">Success Response (200)</span>
+                <div class="code-block">
+{
+  "status": "success",
+  "message": "Player disconnected"
+}
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <div class="method POST">POST</div>
+                    <div class="path">/player/heartbeat</div>
+                    <span class="auth-badge">REQUIRES AUTH</span>
+                </div>
+                <div class="description">Send heartbeat to keep player alive in system</div>
+
+                <span class="label response">Success Response (200)</span>
+                <div class="code-block">
+{
+  "status": "alive",
+  "message": "Heartbeat recorded"
+}
+                </div>
+
+                <div class="note">
+                    <strong>💡 Note:</strong> Send this every 30 seconds to maintain active player status. Server times out after 120 seconds without heartbeat.
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <div class="method GET">GET</div>
+                    <div class="path">/player/profile/:playerId</div>
+                    <span class="auth-badge">REQUIRES AUTH</span>
+                </div>
+                <div class="description">Get player profile information</div>
+
+                <span class="label response">Success Response (200)</span>
+                <div class="code-block">
+{
+  "player": {
+    "id": 42,
+    "display_name": "PlayerName",
+    "player_tag": "#0001",
+    "is_online": true,
+    "last_seen": "2026-01-22T10:30:00Z"
+  }
+}
+                </div>
+            </div>
+        </section>
+
+        <section id="friends">
+            <h2>Friends System</h2>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <div class="method POST">POST</div>
+                    <div class="path">/friends/invite</div>
+                    <span class="auth-badge">REQUIRES AUTH</span>
+                </div>
+                <div class="description">Send friend request to another player</div>
+                <span class="label request">Request</span>
+                <div class="code-block">
+{
+  "receiver_id": 50
+}
+                </div>
+
+                <span class="label response">Success Response (201)</span>
+                <div class="code-block">
+{
+  "status": "success",
+  "friendship_id": 123,
+  "message": "Friend request sent"
+}
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <div class="method POST">POST</div>
+                    <div class="path">/friends/accept</div>
+                    <span class="auth-badge">REQUIRES AUTH</span>
+                </div>
+                <div class="description">Accept pending friend request</div>
+                <span class="label request">Request</span>
+                <div class="code-block">
+{
+  "friendship_id": 123
+}
+                </div>
+
+                <span class="label response">Success Response (200)</span>
+                <div class="code-block">
+{
+  "status": "success",
+  "message": "Friend request accepted"
+}
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <div class="method GET">GET</div>
+                    <div class="path">/friends/list/:playerId</div>
+                    <span class="auth-badge">REQUIRES AUTH</span>
+                </div>
+                <div class="description">Get friends list with online status</div>
+
+                <span class="label response">Success Response (200)</span>
+                <div class="code-block">
+{
+  "friends": [
+    {
+      "friend_id": 10,
+      "friend_name": "Player1",
+      "friend_tag": "#0001",
+      "is_online": true,
+      "status": "accepted"
+    }
+  ],
+  "pending": [
+    {
+      "friendship_id": 123,
+      "player_id": 50,
+      "player_name": "Player2",
+      "status": "pending"
+    }
+  ]
+}
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <div class="method DELETE">DELETE</div>
+                    <div class="path">/friends/remove/:friendId</div>
+                    <span class="auth-badge">REQUIRES AUTH</span>
+                </div>
+                <div class="description">Remove player from friends list</div>
+
+                <span class="label response">Success Response (200)</span>
+                <div class="code-block">
+{
+  "status": "success",
+  "message": "Friend removed"
+}
+                </div>
+            </div>
+        </section>
+
+        <section id="invites">
+            <h2>Game Invites</h2>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <div class="method POST">POST</div>
+                    <div class="path">/invite/send</div>
+                    <span class="auth-badge">REQUIRES AUTH</span>
+                </div>
+                <div class="description">Invite another player to join game session</div>
+                <span class="label request">Request</span>
+                <div class="code-block">
+{
+  "receiver_id": 50,
+  "session_code": "ABC123"
+}
+                </div>
+
+                <span class="label response">Success Response (201)</span>
+                <div class="code-block">
+{
+  "status": "success",
+  "invite_id": 123,
+  "session_code": "ABC123",
+  "expires_in": 120
+}
+                </div>
+
+                <div class="note">
+                    <strong>⚠️ Important:</strong> Invites expire after 120 seconds. Receiver must be online to receive invite.
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <div class="method GET">GET</div>
+                    <div class="path">/invite/check/:playerId</div>
+                    <span class="auth-badge">REQUIRES AUTH</span>
+                </div>
+                <div class="description">Get list of pending invites for player</div>
+
+                <span class="label response">Success Response (200)</span>
+                <div class="code-block">
+{
+  "invites": [
+    {
+      "invite_id": 123,
+      "sender_id": 10,
+      "sender_name": "PlayerName#0001",
+      "session_code": "ABC123",
+      "created_at": "2026-01-22T10:30:45Z",
+      "expires_at": "2026-01-22T10:32:45Z"
+    }
+  ]
+}
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <div class="method POST">POST</div>
+                    <div class="path">/invite/respond</div>
+                    <span class="auth-badge">REQUIRES AUTH</span>
+                </div>
+                <div class="description">Accept or reject game invite</div>
+                <span class="label request">Request</span>
+                <div class="code-block">
+{
+  "invite_id": 123,
+  "action": "accept"
+}
+                </div>
+
+                <span class="label response">Success Response (200)</span>
+                <div class="code-block">
+{
+  "status": "success",
+  "action": "accept",
+  "session_code": "ABC123",
+  "message": "Joined session"
+}
+                </div>
+            </div>
+        </section>
+
+        <section id="sessions">
+            <h2>Game Sessions</h2>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <div class="method POST">POST</div>
+                    <div class="path">/session/create</div>
+                    <span class="auth-badge">REQUIRES AUTH</span>
+                </div>
+                <div class="description">Create new multiplayer game session</div>
+                <span class="label request">Request</span>
+                <div class="code-block">
+{
+  "session_name": "Epic Battle",
+  "max_players": 4,
+  "game_mode": "TeamDeathmatch"
+}
+                </div>
+
+                <span class="label response">Success Response (201)</span>
+                <div class="code-block">
+{
+  "status": "success",
+  "session_code": "ABC123",
+  "session_id": 456,
+  "host_id": 42,
+  "created_at": "2026-01-22T10:30:45Z"
+}
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <div class="method POST">POST</div>
+                    <div class="path">/session/join</div>
+                    <span class="auth-badge">REQUIRES AUTH</span>
+                </div>
+                <div class="description">Join an existing game session</div>
+                <span class="label request">Request</span>
+                <div class="code-block">
+{
+  "session_code": "ABC123"
+}
+                </div>
+
+                <span class="label response">Success Response (200)</span>
+                <div class="code-block">
+{
+  "status": "success",
+  "session_id": 456,
+  "session_code": "ABC123",
+  "players_count": 3,
+  "max_players": 4,
+  "message": "Joined session"
+}
+                </div>
+            </div>
+        </section>
+
+        <section id="errors">
+            <h2>Error Codes & Responses</h2>
+
+            <div class="error-codes">
+                <h3>Common Error Codes</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Status</th>
+                            <th>Message</th>
+                            <th>Cause</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>400</strong></td>
+                            <td>Bad Request</td>
+                            <td>Invalid input or missing fields</td>
+                            <td>Validation failed on request body</td>
+                        </tr>
+                        <tr>
+                            <td><strong>401</strong></td>
+                            <td>Unauthorized</td>
+                            <td>Invalid or expired token</td>
+                            <td>Missing/invalid JWT token in header</td>
+                        </tr>
+                        <tr>
+                            <td><strong>403</strong></td>
+                            <td>Forbidden</td>
+                            <td>Action not allowed</td>
+                            <td>Insufficient permissions</td>
+                        </tr>
+                        <tr>
+                            <td><strong>404</strong></td>
+                            <td>Not Found</td>
+                            <td>Resource not found</td>
+                            <td>Player, session, or invite doesn't exist</td>
+                        </tr>
+                        <tr>
+                            <td><strong>409</strong></td>
+                            <td>Conflict</td>
+                            <td>Duplicate or conflicting data</td>
+                            <td>Player tag already exists, duplicate invite</td>
+                        </tr>
+                        <tr>
+                            <td><strong>429</strong></td>
+                            <td>Too Many Requests</td>
+                            <td>Rate limit exceeded</td>
+                            <td>Too many requests from same IP</td>
+                        </tr>
+                        <tr>
+                            <td><strong>500</strong></td>
+                            <td>Server Error</td>
+                            <td>Internal server error</td>
+                            <td>Database or server issue</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="margin-top: 30px;">Standard Error Response Format</h3>
+                <div class="code-block">
+{
+  "status": "error",
+  "message": "Detailed error message",
+  "code": 400,
+  "details": {
+    "field": "password",
+    "reason": "Password must contain uppercase and lowercase letters"
+  }
+}
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>API Usage Best Practices</h2>
+
+            <div style="background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin: 20px 0;">
+                <h3>✅ DO:</h3>
+                <ul style="margin-left: 20px;">
+                    <li>Always send <code>Authorization: Bearer {token}</code> header for authenticated endpoints</li>
+                    <li>Refresh tokens when they expire (before 2 hours)</li>
+                    <li>Implement heartbeat every 30 seconds to keep player alive</li>
+                    <li>Handle all error codes gracefully with user-friendly messages</li>
+                    <li>Use HTTPS in production for all API calls</li>
+                    <li>Store refresh and remember tokens securely (never in localStorage)</li>
+                </ul>
+            </div>
+
+            <div style="background: #ffebee; padding: 25px; border-radius: 8px; border-left: 5px solid #f44336; margin: 20px 0;">
+                <h3 style="color: #c62828;">❌ DON'T:</h3>
+                <ul style="margin-left: 20px; color: #495159;">
+                    <li>Expose tokens in URL parameters or logs</li>
+                    <li>Send sensitive data in query strings</li>
+                    <li>Cache authentication tokens longer than their expiry</li>
+                    <li>Ignore rate limits - implement exponential backoff for retries</li>
+                    <li>Store plain passwords - use tokens exclusively</li>
+                    <li>Make assumptions about player online status without heartbeat</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 FoxTooth Backend. Complete API Documentation.</p>
+        <p><a href="docs-hub.html">Documentation Hub</a> | <a href="index.html">Main Page</a></p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoxTooth Backend - Unreal Engine / C++ Integration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Source+Sans+Pro:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            color: #495159;
+            background: linear-gradient(135deg, #f7f9f9 0%, #ffffff 100%);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #000000 0%, #495159 100%);
+            color: #f7f9f9;
+            padding: 50px 20px;
+            text-align: center;
+            border-bottom: 4px solid #db7c26;
+        }
+
+        header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .accent {
+            color: #db7c26;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .nav-button {
+            display: inline-block;
+            background: #495159;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .nav-button:hover {
+            background: #000000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        section {
+            margin: 50px 0;
+        }
+
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 15px;
+            border-bottom: 3px solid #db7c26;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #000000;
+            margin: 30px 0 15px 0;
+        }
+
+        h4 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #000000;
+            margin: 20px 0 10px 0;
+        }
+
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border: 1px solid #333;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+
+        .code-label {
+            display: inline-block;
+            background: #db7c26;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .note {
+            background: #fffbea;
+            border-left: 4px solid #fbc02d;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .note strong {
+            color: #f57f17;
+        }
+
+        .tip {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .tip strong {
+            color: #2e7d32;
+        }
+
+        .warning {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .warning strong {
+            color: #c62828;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .step {
+            background: white;
+            border-left: 5px solid #db7c26;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #db7c26;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: 700;
+            margin-right: 10px;
+        }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background: #f5f5f5;
+            font-weight: 700;
+            color: #000000;
+        }
+
+        tr:hover {
+            background: #fafafa;
+        }
+
+        footer {
+            background: #000000;
+            color: #f7f9f9;
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 4px solid #db7c26;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #db7c26;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>FoxTooth <span class="accent">Unreal / C++</span></h1>
+        <p>Complete Guide for Unreal Engine Integration</p>
+    </header>
+
+    <div class="container">
+        <a href="docs-hub.html" class="nav-button">← Back to Documentation Hub</a>
+
+        <section>
+            <h2>Quick Overview</h2>
+            <p>This guide provides comprehensive C++ integration for Unreal Engine. Includes HTTP client implementation, JSON serialization, async request handling, and Blueprint support.</p>
+
+            <div class="note">
+                <strong>📋 Requirements:</strong> Unreal Engine 4.24+ or UE5, HTTP and JSON modules enabled
+            </div>
+        </section>
+
+        <section>
+            <h2>Project Setup</h2>
+
+            <div class="step">
+                <span class="step-number">1</span>
+                <h3 style="display: inline;">Configure Plugin Dependencies</h3>
+
+                <p>Add these modules to your project's <code>.Build.cs</code> file:</p>
+
+                <div class="code-label">YourGame.Build.cs</div>
+                <div class="code-block">
+PublicDependencyModuleNames.AddRange(new string[] 
+{ 
+    "Core", 
+    "CoreUObject", 
+    "Engine", 
+    "InputCore",
+    "Http",
+    "Json",
+    "JsonUtilities"
+});
+                </div>
+
+                <div class="tip">
+                    <strong>💡 Tip:</strong> Regenerate Visual Studio project files and rebuild after modifying .Build.cs
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Core Backend Manager</h2>
+
+            <div class="step">
+                <span class="step-number">2</span>
+                <h3 style="display: inline;">Create Game Backend Manager Component</h3>
+
+                <div class="code-label">GameBackendManager.h</div>
+                <div class="code-block">
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
+#include "Http.h"
+#include "Json.h"
+#include "GameBackendManager.generated.h"
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
+    FLoginCompleted, 
+    bool, bSuccess, 
+    FString, ErrorMessage);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
+    FPlayerDataReceived, 
+    bool, bSuccess, 
+    FString, PlayerData);
+
+UCLASS()
+class YOURGAME_API AGameBackendManager : public AActor
+{
+    GENERATED_BODY()
+
+public:
+    AGameBackendManager();
+
+    virtual void BeginPlay() override;
+    virtual void Tick(float DeltaTime) override;
+
+    UPROPERTY(BlueprintReadWrite, Category = "Backend")
+    FString BaseURL = "http://localhost:7777";
+
+    UPROPERTY(BlueprintReadWrite, Category = "Backend")
+    FString AccessToken;
+
+    UPROPERTY(BlueprintReadWrite, Category = "Backend")
+    FString RefreshToken;
+
+    UPROPERTY(BlueprintReadWrite, Category = "Backend")
+    int32 PlayerId = 0;
+
+    // Delegates
+    UPROPERTY(BlueprintAssignable, Category = "Backend")
+    FLoginCompleted OnLoginCompleted;
+
+    // Authentication Functions
+    UFUNCTION(BlueprintCallable, Category = "Backend|Auth")
+    void CreateAccount(
+        const FString& DisplayName, 
+        const FString& PlayerTag, 
+        const FString& Email, 
+        const FString& Password);
+
+    UFUNCTION(BlueprintCallable, Category = "Backend|Auth")
+    void Login(
+        const FString& DisplayName, 
+        const FString& PlayerTag, 
+        const FString& Password, 
+        bool bRememberMe = true);
+
+    UFUNCTION(BlueprintCallable, Category = "Backend|Auth")
+    void RefreshAccessToken();
+
+    UFUNCTION(BlueprintCallable, Category = "Backend|Auth")
+    void Logout();
+
+private:
+    FHttpModule* HttpModule;
+    FTimerHandle HeartbeatTimerHandle;
+
+    // Request callbacks
+    void OnCreateAccountResponse(
+        FHttpRequestPtr Request, 
+        FHttpResponsePtr Response, 
+        bool bWasSuccessful);
+
+    void OnLoginResponse(
+        FHttpRequestPtr Request, 
+        FHttpResponsePtr Response, 
+        bool bWasSuccessful);
+
+    void OnRefreshTokenResponse(
+        FHttpRequestPtr Request, 
+        FHttpResponsePtr Response, 
+        bool bWasSuccessful);
+
+    // Helpers
+    TSharedPtr<FJsonObject> ParseJsonResponse(const FString& JsonString);
+    void StartHeartbeatTimer();
+    void SendHeartbeat();
+};
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">3</span>
+                <h3 style="display: inline;">Implement Backend Manager</h3>
+
+                <div class="code-label">GameBackendManager.cpp (Authentication Methods)</div>
+                <div class="code-block">
+#include "GameBackendManager.h"
+#include "HttpModule.h"
+#include "Interfaces/IHttpResponse.h"
+#include "JsonUtilities.h"
+#include "TimerManager.h"
+#include "Engine/World.h"
+
+AGameBackendManager::AGameBackendManager()
+{
+    PrimaryActorTick.bCanEverTick = false;
+}
+
+void AGameBackendManager::BeginPlay()
+{
+    Super::BeginPlay();
+    HttpModule = &FHttpModule::Get();
+}
+
+void AGameBackendManager::CreateAccount(
+    const FString& DisplayName, 
+    const FString& PlayerTag, 
+    const FString& Email, 
+    const FString& Password)
+{
+    FHttpRequestRef Request = HttpModule->CreateRequest();
+    Request->SetURL(BaseURL + "/account/create");
+    Request->SetVerb("POST");
+    Request->SetHeader("Content-Type", "application/json");
+
+    // Build JSON payload
+    TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject());
+    JsonObject->SetStringField("display_name", DisplayName);
+    JsonObject->SetStringField("player_tag", PlayerTag);
+    JsonObject->SetStringField("email", Email);
+    JsonObject->SetStringField("password", Password);
+
+    FString JsonString;
+    TSharedRef<TJsonWriter<>> Writer = 
+        TJsonWriterFactory<>::Create(&JsonString);
+    FJsonSerializer::Serialize(JsonObject.ToSharedRef(), Writer);
+
+    Request->SetContentAsString(JsonString);
+
+    Request->OnProcessRequestComplete().BindUObject(
+        this, 
+        &AGameBackendManager::OnCreateAccountResponse);
+
+    Request->ProcessRequest();
+}
+
+void AGameBackendManager::Login(
+    const FString& DisplayName, 
+    const FString& PlayerTag, 
+    const FString& Password, 
+    bool bRememberMe)
+{
+    FHttpRequestRef Request = HttpModule->CreateRequest();
+    Request->SetURL(BaseURL + "/account/login");
+    Request->SetVerb("POST");
+    Request->SetHeader("Content-Type", "application/json");
+
+    TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject());
+    JsonObject->SetStringField("display_name", DisplayName);
+    JsonObject->SetStringField("player_tag", PlayerTag);
+    JsonObject->SetStringField("password", Password);
+    JsonObject->SetBoolField("remember_me", bRememberMe);
+
+    FString JsonString;
+    TSharedRef<TJsonWriter<>> Writer = 
+        TJsonWriterFactory<>::Create(&JsonString);
+    FJsonSerializer::Serialize(JsonObject.ToSharedRef(), Writer);
+
+    Request->SetContentAsString(JsonString);
+
+    Request->OnProcessRequestComplete().BindUObject(
+        this, 
+        &AGameBackendManager::OnLoginResponse);
+
+    Request->ProcessRequest();
+}
+
+void AGameBackendManager::OnLoginResponse(
+    FHttpRequestPtr Request, 
+    FHttpResponsePtr Response, 
+    bool bWasSuccessful)
+{
+    if (bWasSuccessful && Response.IsValid())
+    {
+        TSharedPtr<FJsonObject> JsonObject = 
+            ParseJsonResponse(Response->GetContentAsString());
+
+        if (JsonObject.IsValid() && JsonObject->GetStringField("status") == "success")
+        {
+            AccessToken = JsonObject->GetStringField("token");
+            RefreshToken = JsonObject->GetStringField("refresh_token");
+            PlayerId = JsonObject->GetIntegerField("player_id");
+
+            OnLoginCompleted.Broadcast(true, "Login successful");
+            StartHeartbeatTimer();
+        }
+        else
+        {
+            OnLoginCompleted.Broadcast(
+                false, 
+                JsonObject->GetStringField("message"));
+        }
+    }
+    else
+    {
+        OnLoginCompleted.Broadcast(false, "Network request failed");
+    }
+}
+
+void AGameBackendManager::RefreshAccessToken()
+{
+    if (RefreshToken.IsEmpty())
+    {
+        return;
+    }
+
+    FHttpRequestRef Request = HttpModule->CreateRequest();
+    Request->SetURL(BaseURL + "/player/refresh-token");
+    Request->SetVerb("POST");
+    Request->SetHeader("Content-Type", "application/json");
+
+    TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject());
+    JsonObject->SetStringField("refresh_token", RefreshToken);
+    JsonObject->SetIntegerField("player_id", PlayerId);
+
+    FString JsonString;
+    TSharedRef<TJsonWriter<>> Writer = 
+        TJsonWriterFactory<>::Create(&JsonString);
+    FJsonSerializer::Serialize(JsonObject.ToSharedRef(), Writer);
+
+    Request->SetContentAsString(JsonString);
+
+    Request->OnProcessRequestComplete().BindUObject(
+        this, 
+        &AGameBackendManager::OnRefreshTokenResponse);
+
+    Request->ProcessRequest();
+}
+
+void AGameBackendManager::OnRefreshTokenResponse(
+    FHttpRequestPtr Request, 
+    FHttpResponsePtr Response, 
+    bool bWasSuccessful)
+{
+    if (bWasSuccessful && Response.IsValid())
+    {
+        TSharedPtr<FJsonObject> JsonObject = 
+            ParseJsonResponse(Response->GetContentAsString());
+
+        if (JsonObject.IsValid())
+        {
+            AccessToken = JsonObject->GetStringField("token");
+        }
+    }
+}
+
+void AGameBackendManager::SendHeartbeat()
+{
+    if (AccessToken.IsEmpty() || PlayerId == 0)
+    {
+        return;
+    }
+
+    FHttpRequestRef Request = HttpModule->CreateRequest();
+    Request->SetURL(BaseURL + "/player/heartbeat");
+    Request->SetVerb("POST");
+    Request->SetHeader("Authorization", "Bearer " + AccessToken);
+    Request->SetHeader("Content-Type", "application/json");
+
+    Request->ProcessRequest();
+}
+
+void AGameBackendManager::StartHeartbeatTimer()
+{
+    if (GetWorld())
+    {
+        GetWorld()->GetTimerManager().SetTimer(
+            HeartbeatTimerHandle,
+            this,
+            &AGameBackendManager::SendHeartbeat,
+            30.0f,
+            true,
+            5.0f);
+    }
+}
+
+void AGameBackendManager::Logout()
+{
+    if (GetWorld())
+    {
+        GetWorld()->GetTimerManager().ClearTimer(HeartbeatTimerHandle);
+    }
+
+    AccessToken.Empty();
+    RefreshToken.Empty();
+    PlayerId = 0;
+}
+
+TSharedPtr<FJsonObject> AGameBackendManager::ParseJsonResponse(
+    const FString& JsonString)
+{
+    TSharedPtr<FJsonObject> JsonObject;
+    TSharedRef<TJsonReader<>> Reader = 
+        TJsonReaderFactory<>::Create(JsonString);
+
+    if (FJsonSerializer::Deserialize(Reader, JsonObject) && JsonObject.IsValid())
+    {
+        return JsonObject;
+    }
+
+    return nullptr;
+}
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Friends & Invites System</h2>
+
+            <div class="step">
+                <span class="step-number">4</span>
+                <h3 style="display: inline;">Friends & Game Invites Methods</h3>
+
+                <div class="code-label">GameBackendManager.h (Additional Methods)</div>
+                <div class="code-block">
+// Friends Functions
+UFUNCTION(BlueprintCallable, Category = "Backend|Friends")
+void SendFriendRequest(int32 ReceiverId);
+
+UFUNCTION(BlueprintCallable, Category = "Backend|Friends")
+void AcceptFriendRequest(int32 FriendshipId);
+
+UFUNCTION(BlueprintCallable, Category = "Backend|Friends")
+void GetFriendsList();
+
+// Game Invites
+UFUNCTION(BlueprintCallable, Category = "Backend|Invites")
+void CreateGameSession(const FString& SessionName, int32 MaxPlayers);
+
+UFUNCTION(BlueprintCallable, Category = "Backend|Invites")
+void SendGameInvite(int32 ReceiverId, const FString& SessionCode);
+
+UFUNCTION(BlueprintCallable, Category = "Backend|Invites")
+void CheckPendingInvites();
+
+UFUNCTION(BlueprintCallable, Category = "Backend|Invites")
+void RespondToInvite(int32 InviteId, const FString& Action);
+
+private:
+void OnFriendRequestResponse(
+    FHttpRequestPtr Request, 
+    FHttpResponsePtr Response, 
+    bool bWasSuccessful);
+
+void OnGameSessionResponse(
+    FHttpRequestPtr Request, 
+    FHttpResponsePtr Response, 
+    bool bWasSuccessful);
+                </div>
+
+                <div class="code-label">GameBackendManager.cpp (Friends & Invites Implementation)</div>
+                <div class="code-block">
+void AGameBackendManager::SendFriendRequest(int32 ReceiverId)
+{
+    FHttpRequestRef Request = HttpModule->CreateRequest();
+    Request->SetURL(BaseURL + "/friends/invite");
+    Request->SetVerb("POST");
+    Request->SetHeader("Authorization", "Bearer " + AccessToken);
+    Request->SetHeader("Content-Type", "application/json");
+
+    TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject());
+    JsonObject->SetIntegerField("receiver_id", ReceiverId);
+
+    FString JsonString;
+    TSharedRef<TJsonWriter<>> Writer = 
+        TJsonWriterFactory<>::Create(&JsonString);
+    FJsonSerializer::Serialize(JsonObject.ToSharedRef(), Writer);
+
+    Request->SetContentAsString(JsonString);
+    Request->OnProcessRequestComplete().BindUObject(
+        this, 
+        &AGameBackendManager::OnFriendRequestResponse);
+
+    Request->ProcessRequest();
+}
+
+void AGameBackendManager::CreateGameSession(
+    const FString& SessionName, 
+    int32 MaxPlayers)
+{
+    FHttpRequestRef Request = HttpModule->CreateRequest();
+    Request->SetURL(BaseURL + "/session/create");
+    Request->SetVerb("POST");
+    Request->SetHeader("Authorization", "Bearer " + AccessToken);
+    Request->SetHeader("Content-Type", "application/json");
+
+    TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject());
+    JsonObject->SetStringField("session_name", SessionName);
+    JsonObject->SetIntegerField("max_players", MaxPlayers);
+    JsonObject->SetStringField("game_mode", "Default");
+
+    FString JsonString;
+    TSharedRef<TJsonWriter<>> Writer = 
+        TJsonWriterFactory<>::Create(&JsonString);
+    FJsonSerializer::Serialize(JsonObject.ToSharedRef(), Writer);
+
+    Request->SetContentAsString(JsonString);
+    Request->OnProcessRequestComplete().BindUObject(
+        this, 
+        &AGameBackendManager::OnGameSessionResponse);
+
+    Request->ProcessRequest();
+}
+
+void AGameBackendManager::SendGameInvite(
+    int32 ReceiverId, 
+    const FString& SessionCode)
+{
+    FHttpRequestRef Request = HttpModule->CreateRequest();
+    Request->SetURL(BaseURL + "/invite/send");
+    Request->SetVerb("POST");
+    Request->SetHeader("Authorization", "Bearer " + AccessToken);
+    Request->SetHeader("Content-Type", "application/json");
+
+    TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject());
+    JsonObject->SetIntegerField("receiver_id", ReceiverId);
+    JsonObject->SetStringField("session_code", SessionCode);
+
+    FString JsonString;
+    TSharedRef<TJsonWriter<>> Writer = 
+        TJsonWriterFactory<>::Create(&JsonString);
+    FJsonSerializer::Serialize(JsonObject.ToSharedRef(), Writer);
+
+    Request->SetContentAsString(JsonString);
+    Request->ProcessRequest();
+}
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Blueprint Integration</h2>
+
+            <div class="step">
+                <span class="step-number">5</span>
+                <h3 style="display: inline;">Using Backend Manager in Blueprints</h3>
+
+                <p>All functions with <code>UFUNCTION(BlueprintCallable)</code> are accessible in Blueprint:</p>
+
+                <div class="note">
+                    <strong>📋 Blueprint Setup:</strong>
+                    <ol style="margin-left: 20px; margin-top: 10px;">
+                        <li>Place an instance of <code>GameBackendManager</code> in your level</li>
+                        <li>Get reference to it in your Login UI Blueprint</li>
+                        <li>Call the Login function with appropriate parameters</li>
+                        <li>Bind to the <code>OnLoginCompleted</code> delegate</li>
+                        <li>Show success/error messages to the player</li>
+                    </ol>
+                </div>
+
+                <div class="tip">
+                    <strong>💡 Delegate Binding:</strong> You can bind Blueprint events to the <code>OnLoginCompleted</code>, <code>OnFriendsListReceived</code> delegates for event-driven gameplay.
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Async Request Pattern</h2>
+
+            <div class="card">
+                <h4>Advanced: Custom Async Tasks</h4>
+                <p>For more complex async operations, create custom Async Nodes:</p>
+
+                <div class="code-label">AsyncLoginTask.h</div>
+                <div class="code-block">
+UCLASS()
+class YOURGAME_API UAsyncLoginTask : public UBlueprintAsyncActionBase
+{
+    GENERATED_BODY()
+
+public:
+    UPROPERTY(BlueprintAssignable)
+    FLoginCompleted OnSuccess;
+
+    UPROPERTY(BlueprintAssignable)
+    FLoginCompleted OnFailure;
+
+    UFUNCTION(BlueprintCallable, Category = "Backend")
+    static UAsyncLoginTask* AsyncLogin(
+        AGameBackendManager* BackendManager,
+        const FString& DisplayName,
+        const FString& PlayerTag,
+        const FString& Password);
+
+    virtual void Activate() override;
+
+private:
+    UPROPERTY()
+    AGameBackendManager* TargetBackendManager;
+
+    FString CachedDisplayName;
+    FString CachedPlayerTag;
+    FString CachedPassword;
+
+    UFUNCTION()
+    void OnLoginComplete(bool bSuccess, const FString& Message);
+};
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Error Handling & Logging</h2>
+
+            <div class="card">
+                <h4>📊 Request Logging</h4>
+                <p>Add detailed logging for debugging:</p>
+
+                <div class="code-block">
+void AGameBackendManager::Login(
+    const FString& DisplayName, 
+    const FString& PlayerTag, 
+    const FString& Password, 
+    bool bRememberMe)
+{
+    UE_LOG(LogTemp, Warning, TEXT("Attempting login: %s#%s"), 
+        *DisplayName, *PlayerTag);
+
+    // ... setup request ...
+
+    Request->OnProcessRequestComplete().BindLambda(
+        [this](FHttpRequestPtr Req, FHttpResponsePtr Resp, bool bSuccessful)
+        {
+            if (bSuccessful && Resp.IsValid())
+            {
+                UE_LOG(LogTemp, Log, TEXT("Login response: %d"), 
+                    Resp->GetResponseCode());
+            }
+            else
+            {
+                UE_LOG(LogTemp, Error, TEXT("Login failed: %s"), 
+                    *Req->GetStatus().ToString());
+            }
+
+            this->OnLoginResponse(Req, Resp, bSuccessful);
+        });
+}
+                </div>
+            </div>
+
+            <div class="card">
+                <h4>🛡️ Network Error Handling</h4>
+
+                <div class="code-block">
+// Handle specific HTTP status codes
+void AGameBackendManager::OnLoginResponse(
+    FHttpRequestPtr Request, 
+    FHttpResponsePtr Response, 
+    bool bWasSuccessful)
+{
+    if (!bWasSuccessful || !Response.IsValid())
+    {
+        OnLoginCompleted.Broadcast(false, "Network error");
+        return;
+    }
+
+    int32 ResponseCode = Response->GetResponseCode();
+
+    switch (ResponseCode)
+    {
+        case 200:
+            // Success - handle login
+            break;
+        case 400:
+            OnLoginCompleted.Broadcast(false, "Invalid credentials");
+            break;
+        case 401:
+            OnLoginCompleted.Broadcast(false, "Unauthorized");
+            break;
+        case 429:
+            OnLoginCompleted.Broadcast(false, "Too many attempts");
+            break;
+        default:
+            OnLoginCompleted.Broadcast(
+                false, 
+                FString::Printf(TEXT("Error %d"), ResponseCode));
+    }
+}
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Best Practices</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Practice</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Thread Safety</strong></td>
+                        <td>Use BindUObject for thread-safe callbacks</td>
+                        <td><code>OnProcessRequestComplete().BindUObject()</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Token Management</strong></td>
+                        <td>Auto-refresh before expiration</td>
+                        <td>Refresh at 90 minutes (2 hour expiry)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rate Limiting</strong></td>
+                        <td>Implement exponential backoff</td>
+                        <td>Retry after 1s, 2s, 4s, 8s delays</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Memory Management</strong></td>
+                        <td>Use smart pointers for JSON objects</td>
+                        <td><code>TSharedPtr&lt;&gt;</code> and <code>MakeShareable()</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Input Validation</strong></td>
+                        <td>Validate before sending to server</td>
+                        <td>Check password strength, email format</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>Common Issues</h2>
+
+            <div class="card">
+                <h4>❌ Issue: "Http module not found"</h4>
+                <p><strong>Solution:</strong> Ensure Http and Json modules are in .Build.cs PublicDependencyModuleNames</p>
+            </div>
+
+            <div class="card">
+                <h4>❌ Issue: JSON parsing returns null</h4>
+                <p><strong>Solution:</strong> Use FJsonSerializer::Deserialize and check if JsonObject.IsValid() before accessing fields</p>
+            </div>
+
+            <div class="card">
+                <h4>❌ Issue: Heartbeat not sending</h4>
+                <p><strong>Solution:</strong> Verify AccessToken is not empty and timer is started after login success</p>
+            </div>
+
+            <div class="card">
+                <h4>❌ Issue: HTTPS certificate errors</h4>
+                <p><strong>Solution:</strong> On development, use HTTP. For production, ensure proper SSL certificates and use HTTPS URLs</p>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 FoxTooth Backend. Unreal Engine Integration Guide.</p>
+        <p><a href="docs-hub.html">Documentation Hub</a> | <a href="index.html">Main Page</a></p>
+    </footer>
+</body>
+</html>

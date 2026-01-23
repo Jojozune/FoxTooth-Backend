@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoxTooth Backend - Database & SQL Reference</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Source+Sans+Pro:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            color: #495159;
+            background: linear-gradient(135deg, #f7f9f9 0%, #ffffff 100%);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #000000 0%, #495159 100%);
+            color: #f7f9f9;
+            padding: 50px 20px;
+            text-align: center;
+            border-bottom: 4px solid #db7c26;
+        }
+
+        header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .accent {
+            color: #db7c26;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .nav-button {
+            display: inline-block;
+            background: #495159;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .nav-button:hover {
+            background: #000000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        section {
+            margin: 50px 0;
+        }
+
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 15px;
+            border-bottom: 3px solid #db7c26;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #000000;
+            margin: 30px 0 15px 0;
+        }
+
+        h4 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #000000;
+            margin: 20px 0 10px 0;
+        }
+
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border: 1px solid #333;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .code-label {
+            display: inline-block;
+            background: #db7c26;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .note {
+            background: #fffbea;
+            border-left: 4px solid #fbc02d;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .note strong {
+            color: #f57f17;
+        }
+
+        .tip {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .tip strong {
+            color: #2e7d32;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background: #f5f5f5;
+            font-weight: 700;
+            color: #000000;
+        }
+
+        tr:hover {
+            background: #fafafa;
+        }
+
+        .table-scroll {
+            overflow-x: auto;
+        }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        .schema-table {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        footer {
+            background: #000000;
+            color: #f7f9f9;
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 4px solid #db7c26;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #db7c26;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.4rem;
+            }
+            .table-scroll {
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>FoxTooth <span class="accent">Database & SQL</span></h1>
+        <p>Complete Schema, Migrations, and Query Reference</p>
+    </header>
+
+    <div class="container">
+        <a href="docs-hub.html" class="nav-button">← Back to Documentation Hub</a>
+
+        <section>
+            <h2>Database Overview</h2>
+            <p>FoxTooth Backend uses MySQL 5.7+ with InnoDB storage engine. All tables use UTF-8MB4 encoding for full Unicode support including emojis.</p>
+
+            <div class="note">
+                <strong>📋 Requirements:</strong> MySQL 5.7+ or MariaDB 10.3+
+            </div>
+        </section>
+
+        <section>
+            <h2>Database Setup</h2>
+
+            <h3>1. Create Database</h3>
+            <div class="code-label">Initial Setup</div>
+            <div class="code-block">
+-- Create the database
+CREATE DATABASE IF NOT EXISTS tidal_hunters
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+
+-- Use the database
+USE tidal_hunters;
+
+-- Verify
+SHOW DATABASES LIKE 'tidal_hunters';
+            </div>
+
+            <h3>2. Run Migrations</h3>
+            <p>Execute migrations in order:</p>
+            <ol>
+                <li>001_add_heartbeat_columns.sql</li>
+                <li>002_create_friendships_table.sql</li>
+                <li>003_add_connected_at_column.sql</li>
+            </ol>
+        </section>
+
+        <section>
+            <h2>Database Schema</h2>
+
+            <h3>Players Table</h3>
+            <div class="schema-table">
+                <p><strong>Core table for player accounts and authentication</strong></p>
+                
+                <div class="code-label">SQL Definition</div>
+                <div class="code-block">
+CREATE TABLE IF NOT EXISTS players (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  display_name VARCHAR(20) NOT NULL,
+  player_tag VARCHAR(10) NOT NULL,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL,
+  is_online TINYINT(1) DEFAULT 0,
+  last_heartbeat TIMESTAMP NULL DEFAULT NULL,
+  game_open TINYINT(1) DEFAULT 0,
+  connected_at TIMESTAMP NULL DEFAULT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  
+  UNIQUE KEY unique_player (display_name, player_tag),
+  KEY idx_email (email),
+  KEY idx_is_online (is_online),
+  KEY idx_last_heartbeat (last_heartbeat),
+  KEY idx_is_online_heartbeat (is_online, last_heartbeat)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+                </div>
+
+                <h4>Columns:</h4>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Column</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>id</code></td>
+                                <td>INT</td>
+                                <td>Primary key, auto-increment player ID</td>
+                            </tr>
+                            <tr>
+                                <td><code>display_name</code></td>
+                                <td>VARCHAR(20)</td>
+                                <td>Player's username</td>
+                            </tr>
+                            <tr>
+                                <td><code>player_tag</code></td>
+                                <td>VARCHAR(10)</td>
+                                <td>Unique tag (e.g., #0001)</td>
+                            </tr>
+                            <tr>
+                                <td><code>email</code></td>
+                                <td>VARCHAR(255)</td>
+                                <td>Unique email address</td>
+                            </tr>
+                            <tr>
+                                <td><code>password_hash</code></td>
+                                <td>VARCHAR(255)</td>
+                                <td>bcryptjs hashed password</td>
+                            </tr>
+                            <tr>
+                                <td><code>is_online</code></td>
+                                <td>TINYINT(1)</td>
+                                <td>Current online status (0/1)</td>
+                            </tr>
+                            <tr>
+                                <td><code>last_heartbeat</code></td>
+                                <td>TIMESTAMP</td>
+                                <td>Last heartbeat timestamp for timeout detection</td>
+                            </tr>
+                            <tr>
+                                <td><code>game_open</code></td>
+                                <td>TINYINT(1)</td>
+                                <td>Game application open status</td>
+                            </tr>
+                            <tr>
+                                <td><code>connected_at</code></td>
+                                <td>TIMESTAMP</td>
+                                <td>When player connected to server</td>
+                            </tr>
+                            <tr>
+                                <td><code>created_at</code></td>
+                                <td>TIMESTAMP</td>
+                                <td>Account creation timestamp</td>
+                            </tr>
+                            <tr>
+                                <td><code>updated_at</code></td>
+                                <td>TIMESTAMP</td>
+                                <td>Last update timestamp (auto)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <h3>Friendships Table</h3>
+            <div class="schema-table">
+                <p><strong>Manages friend relationships and requests</strong></p>
+
+                <div class="code-label">SQL Definition</div>
+                <div class="code-block">
+CREATE TABLE IF NOT EXISTS friendships (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  player_id INT NOT NULL,
+  friend_id INT NOT NULL,
+  status ENUM('pending', 'accepted', 'blocked') DEFAULT 'pending',
+  requested_by INT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  
+  FOREIGN KEY (player_id) REFERENCES players(id) ON DELETE CASCADE,
+  FOREIGN KEY (friend_id) REFERENCES players(id) ON DELETE CASCADE,
+  FOREIGN KEY (requested_by) REFERENCES players(id) ON DELETE SET NULL,
+  
+  UNIQUE KEY unique_friendship (player_id, friend_id),
+  KEY idx_friend_id (friend_id),
+  KEY idx_status (status),
+  KEY idx_player_status (player_id, status)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+                </div>
+
+                <h4>Columns:</h4>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Column</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>id</code></td>
+                                <td>INT</td>
+                                <td>Primary key, friendship ID</td>
+                            </tr>
+                            <tr>
+                                <td><code>player_id</code></td>
+                                <td>INT</td>
+                                <td>First player in friendship</td>
+                            </tr>
+                            <tr>
+                                <td><code>friend_id</code></td>
+                                <td>INT</td>
+                                <td>Second player in friendship</td>
+                            </tr>
+                            <tr>
+                                <td><code>status</code></td>
+                                <td>ENUM</td>
+                                <td>'pending', 'accepted', or 'blocked'</td>
+                            </tr>
+                            <tr>
+                                <td><code>requested_by</code></td>
+                                <td>INT</td>
+                                <td>ID of player who sent request</td>
+                            </tr>
+                            <tr>
+                                <td><code>created_at</code></td>
+                                <td>TIMESTAMP</td>
+                                <td>When friendship was created</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <h3>Game Sessions Table</h3>
+            <div class="schema-table">
+                <p><strong>Tracks multiplayer game sessions</strong></p>
+
+                <div class="code-label">SQL Definition</div>
+                <div class="code-block">
+CREATE TABLE IF NOT EXISTS game_sessions (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  session_code VARCHAR(50) NOT NULL UNIQUE,
+  host_id INT NOT NULL,
+  session_name VARCHAR(100),
+  max_players INT DEFAULT 4,
+  current_players INT DEFAULT 1,
+  game_mode VARCHAR(50),
+  status ENUM('active', 'completed', 'cancelled') DEFAULT 'active',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  expires_at TIMESTAMP NULL,
+  
+  FOREIGN KEY (host_id) REFERENCES players(id) ON DELETE CASCADE,
+  
+  KEY idx_session_code (session_code),
+  KEY idx_host_id (host_id),
+  KEY idx_status (status),
+  KEY idx_expires_at (expires_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+                </div>
+            </div>
+
+            <h3>Game Invites Table</h3>
+            <div class="schema-table">
+                <p><strong>Manages game session invitations</strong></p>
+
+                <div class="code-label">SQL Definition</div>
+                <div class="code-block">
+CREATE TABLE IF NOT EXISTS game_invites (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  sender_id INT NOT NULL,
+  receiver_id INT NOT NULL,
+  session_id INT NOT NULL,
+  session_code VARCHAR(50) NOT NULL,
+  status ENUM('pending', 'accepted', 'rejected', 'expired') DEFAULT 'pending',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  expires_at TIMESTAMP NULL,
+  
+  FOREIGN KEY (sender_id) REFERENCES players(id) ON DELETE CASCADE,
+  FOREIGN KEY (receiver_id) REFERENCES players(id) ON DELETE CASCADE,
+  FOREIGN KEY (session_id) REFERENCES game_sessions(id) ON DELETE CASCADE,
+  
+  KEY idx_receiver_id (receiver_id),
+  KEY idx_status (status),
+  KEY idx_expires_at (expires_at),
+  KEY idx_receiver_status (receiver_id, status)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+                </div>
+            </div>
+
+            <h3>Tokens Table</h3>
+            <div class="schema-table">
+                <p><strong>Stores refresh and remember tokens</strong></p>
+
+                <div class="code-label">SQL Definition</div>
+                <div class="code-block">
+CREATE TABLE IF NOT EXISTS tokens (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  player_id INT NOT NULL,
+  token_hash VARCHAR(255) NOT NULL,
+  token_type ENUM('refresh', 'remember') NOT NULL,
+  expires_at TIMESTAMP,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  
+  FOREIGN KEY (player_id) REFERENCES players(id) ON DELETE CASCADE,
+  
+  KEY idx_player_id (player_id),
+  KEY idx_token_type (token_type),
+  KEY idx_expires_at (expires_at),
+  UNIQUE KEY unique_remember_token (player_id, token_hash)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Migration Scripts</h2>
+
+            <h3>Migration 001: Add Heartbeat Columns</h3>
+            <div class="code-label">001_add_heartbeat_columns.sql</div>
+            <div class="code-block">
+-- Migration: Add player heartbeat tracking columns
+-- Run this SQL on your database to enable heartbeat functionality
+
+ALTER TABLE players ADD COLUMN last_heartbeat TIMESTAMP NULL DEFAULT NULL;
+ALTER TABLE players ADD COLUMN game_open TINYINT(1) DEFAULT 0;
+
+-- Create indices for faster cleanup queries
+CREATE INDEX idx_last_heartbeat ON players(last_heartbeat);
+CREATE INDEX idx_game_open ON players(game_open);
+
+-- Optional: Add index for querying online players with heartbeat
+CREATE INDEX idx_is_online_heartbeat ON players(is_online, last_heartbeat);
+            </div>
+
+            <h3>Migration 002: Create Friendships Table</h3>
+            <div class="code-label">002_create_friendships_table.sql</div>
+            <div class="code-block">
+-- SQL Migration: Add Friendships Table
+-- Run this in your MySQL database
+
+CREATE TABLE IF NOT EXISTS friendships (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  player_id INT NOT NULL,
+  friend_id INT NOT NULL,
+  status ENUM('pending', 'accepted', 'blocked') DEFAULT 'pending',
+  requested_by INT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (player_id) REFERENCES players(id) ON DELETE CASCADE,
+  FOREIGN KEY (friend_id) REFERENCES players(id) ON DELETE CASCADE,
+  UNIQUE KEY unique_friendship (player_id, friend_id),
+  KEY idx_friend_id (friend_id),
+  KEY idx_status (status)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Verify table was created
+SHOW TABLES LIKE 'friendships';
+
+-- Check the structure
+DESCRIBE friendships;
+            </div>
+
+            <h3>Migration 003: Add Connected At Column</h3>
+            <div class="code-label">003_add_connected_at_column.sql</div>
+            <div class="code-block">
+-- Add connected_at column to track session start time
+ALTER TABLE players ADD COLUMN connected_at TIMESTAMP NULL DEFAULT NULL;
+
+-- Create index for efficient session queries
+CREATE INDEX idx_connected_at ON players(connected_at);
+            </div>
+        </section>
+
+        <section>
+            <h2>Common Database Queries</h2>
+
+            <h3>Player Management</h3>
+
+            <div class="card">
+                <h4>Get Online Players</h4>
+                <div class="code-block">
+SELECT id, display_name, player_tag, last_heartbeat
+FROM players
+WHERE is_online = 1
+ORDER BY last_heartbeat DESC;
+                </div>
+            </div>
+
+            <div class="card">
+                <h4>Check Inactive Players (Timeout)</h4>
+                <div class="code-block">
+-- Find players who haven't sent heartbeat in 120+ seconds
+SELECT id, display_name, last_heartbeat,
+       TIMESTAMPDIFF(SECOND, last_heartbeat, NOW()) as seconds_since_heartbeat
+FROM players
+WHERE is_online = 1
+  AND last_heartbeat IS NOT NULL
+  AND TIMESTAMPDIFF(SECOND, last_heartbeat, NOW()) > 120;
+                </div>
+            </div>
+
+            <div class="card">
+                <h4>Cleanup Inactive Players</h4>
+                <div class="code-block">
+-- Mark players as offline if no heartbeat in 120 seconds
+UPDATE players
+SET is_online = 0, game_open = 0
+WHERE is_online = 1
+  AND last_heartbeat IS NOT NULL
+  AND TIMESTAMPDIFF(SECOND, last_heartbeat, NOW()) > 120;
+                </div>
+            </div>
+
+            <h3>Friends Management</h3>
+
+            <div class="card">
+                <h4>Get Player's Friends List</h4>
+                <div class="code-block">
+SELECT f.id, f.status, f.requested_by,
+       p.id as friend_id, p.display_name, p.player_tag, p.is_online
+FROM friendships f
+JOIN players p ON (f.friend_id = p.id OR f.player_id = p.id)
+WHERE (f.player_id = ? OR f.friend_id = ?)
+  AND f.status = 'accepted'
+  AND p.id != ?
+ORDER BY p.is_online DESC, p.display_name ASC;
+                </div>
+                <p><strong>Parameters:</strong> player_id, player_id, player_id</p>
+            </div>
+
+            <div class="card">
+                <h4>Get Pending Friend Requests</h4>
+                <div class="code-block">
+SELECT f.id, f.requested_by,
+       CASE 
+           WHEN f.requested_by = ? THEN 'sent'
+           ELSE 'received'
+       END as direction,
+       p.id as other_player_id, p.display_name, p.player_tag
+FROM friendships f
+JOIN players p ON (
+    CASE WHEN f.requested_by = ? 
+    THEN f.friend_id = p.id 
+    ELSE f.player_id = p.id 
+    END
+)
+WHERE (f.player_id = ? OR f.friend_id = ?)
+  AND f.status = 'pending'
+ORDER BY f.created_at DESC;
+                </div>
+                <p><strong>Parameters:</strong> player_id, player_id, player_id, player_id</p>
+            </div>
+
+            <h3>Game Invites Management</h3>
+
+            <div class="card">
+                <h4>Get Pending Game Invites for Player</h4>
+                <div class="code-block">
+SELECT gi.id, gi.sender_id,
+       p.display_name, p.player_tag,
+       gi.session_code, gi.created_at, gi.expires_at,
+       TIMESTAMPDIFF(SECOND, NOW(), gi.expires_at) as seconds_remaining
+FROM game_invites gi
+JOIN players p ON gi.sender_id = p.id
+WHERE gi.receiver_id = ?
+  AND gi.status = 'pending'
+  AND gi.expires_at > NOW()
+ORDER BY gi.created_at DESC;
+                </div>
+                <p><strong>Parameters:</strong> receiver_id</p>
+            </div>
+
+            <div class="card">
+                <h4>Cleanup Expired Invites</h4>
+                <div class="code-block">
+UPDATE game_invites
+SET status = 'expired'
+WHERE status = 'pending'
+  AND expires_at < NOW();
+                </div>
+            </div>
+
+            <h3>Session Management</h3>
+
+            <div class="card">
+                <h4>Get Active Sessions by Host</h4>
+                <div class="code-block">
+SELECT id, session_code, session_name, max_players, 
+       current_players, game_mode, created_at
+FROM game_sessions
+WHERE host_id = ?
+  AND status = 'active'
+  AND (expires_at IS NULL OR expires_at > NOW())
+ORDER BY created_at DESC;
+                </div>
+                <p><strong>Parameters:</strong> host_id</p>
+            </div>
+
+            <div class="card">
+                <h4>Count Players in Session</h4>
+                <div class="code-block">
+SELECT COUNT(DISTINCT(receiver_id)) as player_count
+FROM game_invites
+WHERE session_id = ?
+  AND status = 'accepted'
+  AND expires_at > NOW();
+                </div>
+                <p><strong>Parameters:</strong> session_id</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Performance Optimization</h2>
+
+            <h3>Index Strategy</h3>
+            <div class="card">
+                <p><strong>Primary Indexes:</strong></p>
+                <ul>
+                    <li><code>players(is_online, last_heartbeat)</code> - For online player queries</li>
+                    <li><code>friendships(player_id, status)</code> - For friend list retrieval</li>
+                    <li><code>game_invites(receiver_id, status)</code> - For checking pending invites</li>
+                    <li><code>game_invites(expires_at)</code> - For cleanup queries</li>
+                </ul>
+            </div>
+
+            <h3>Query Optimization</h3>
+            <div class="card">
+                <h4>✅ DO:</h4>
+                <ul>
+                    <li>Use indexed columns in WHERE clauses</li>
+                    <li>Limit results with LIMIT clause</li>
+                    <li>Join only necessary tables</li>
+                    <li>Use EXPLAIN to analyze queries</li>
+                    <li>Cache frequently accessed data</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h4>❌ DON'T:</h4>
+                <ul>
+                    <li>Use SELECT * - specify only needed columns</li>
+                    <li>Join more than 3 tables without optimization</li>
+                    <li>Use LIKE with leading wildcard (%text)</li>
+                    <li>Perform calculations on indexed columns in WHERE</li>
+                    <li>Query without proper WHERE conditions</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>Backup & Maintenance</h2>
+
+            <div class="card">
+                <h4>Backup Database</h4>
+                <div class="code-block">
+-- Full backup
+mysqldump -u root -p tidal_hunters > backup.sql
+
+-- With time stamp
+mysqldump -u root -p tidal_hunters > backup_$(date +%Y%m%d_%H%M%S).sql
+
+-- All databases
+mysqldump -u root -p --all-databases > full_backup.sql
+                </div>
+            </div>
+
+            <div class="card">
+                <h4>Restore Database</h4>
+                <div class="code-block">
+-- From backup
+mysql -u root -p tidal_hunters < backup.sql
+
+-- Create and restore
+mysql -u root -p < full_backup.sql
+                </div>
+            </div>
+
+            <div class="card">
+                <h4>Check Database Health</h4>
+                <div class="code-block">
+-- Check table status
+CHECK TABLE players;
+CHECK TABLE friendships;
+CHECK TABLE game_sessions;
+CHECK TABLE game_invites;
+
+-- Optimize tables
+OPTIMIZE TABLE players;
+OPTIMIZE TABLE friendships;
+
+-- Show database stats
+SHOW TABLE STATUS FROM tidal_hunters;
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Database Settings</h2>
+
+            <div class="note">
+                <strong>📋 Recommended MySQL Configuration:</strong>
+                <div style="margin-top: 15px;">
+                    <code>max_connections = 1000</code><br>
+                    <code>innodb_buffer_pool_size = 1G</code><br>
+                    <code>max_allowed_packet = 256M</code><br>
+                    <code>default_character_set = utf8mb4</code>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 FoxTooth Backend. Database & SQL Reference.</p>
+        <p><a href="docs-hub.html">Documentation Hub</a> | <a href="index.html">Main Page</a></p>
+    </footer>
+</body>
+</html>

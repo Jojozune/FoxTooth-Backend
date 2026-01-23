@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoxTooth Backend - Mobile Integration Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Source+Sans+Pro:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            color: #495159;
+            background: linear-gradient(135deg, #f7f9f9 0%, #ffffff 100%);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #000000 0%, #495159 100%);
+            color: #f7f9f9;
+            padding: 50px 20px;
+            text-align: center;
+            border-bottom: 4px solid #db7c26;
+        }
+
+        header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .accent {
+            color: #db7c26;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .nav-button {
+            display: inline-block;
+            background: #495159;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .nav-button:hover {
+            background: #000000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        section {
+            margin: 50px 0;
+        }
+
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 15px;
+            border-bottom: 3px solid #db7c26;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #000000;
+            margin: 30px 0 15px 0;
+        }
+
+        h4 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #000000;
+            margin: 20px 0 10px 0;
+        }
+
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border: 1px solid #333;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+
+        .code-label {
+            display: inline-block;
+            background: #db7c26;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .note {
+            background: #fffbea;
+            border-left: 4px solid #fbc02d;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .note strong {
+            color: #f57f17;
+        }
+
+        .tip {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .tip strong {
+            color: #2e7d32;
+        }
+
+        .warning {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .warning strong {
+            color: #c62828;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .platform-tabs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .platform-tab {
+            background: white;
+            border-left: 5px solid #db7c26;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .platform-tab:hover {
+            box-shadow: 0 8px 24px rgba(219, 124, 38, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .platform-tab h4 {
+            margin-top: 0;
+            color: #db7c26;
+        }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background: #f5f5f5;
+            font-weight: 700;
+            color: #000000;
+        }
+
+        tr:hover {
+            background: #fafafa;
+        }
+
+        footer {
+            background: #000000;
+            color: #f7f9f9;
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 4px solid #db7c26;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #db7c26;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.4rem;
+            }
+            .platform-tabs {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>FoxTooth <span class="accent">Mobile Integration</span></h1>
+        <p>iOS, Android, and Cross-Platform Development</p>
+    </header>
+
+    <div class="container">
+        <a href="docs-hub.html" class="nav-button">← Back to Documentation Hub</a>
+
+        <section>
+            <h2>Overview</h2>
+            <p>This guide covers integration for iOS (Swift), Android (Kotlin), and cross-platform frameworks (Flutter, React Native). All examples follow the same REST API and WebSocket patterns.</p>
+
+            <div class="note">
+                <strong>📋 Requirements:</strong> iOS 13+, Android 8+, or compatible framework versions
+            </div>
+        </section>
+
+        <section>
+            <h2>Choose Your Platform</h2>
+
+            <div class="platform-tabs">
+                <div class="platform-tab">
+                    <h4>🍎 iOS / Swift</h4>
+                    <p>Native iOS development with URLSession and Codable JSON.</p>
+                    <a href="#ios-section" style="color: #db7c26; font-weight: 600; text-decoration: none;">View Swift Guide →</a>
+                </div>
+                <div class="platform-tab">
+                    <h4>🤖 Android / Kotlin</h4>
+                    <p>Native Android with Retrofit, Coroutines, and Jetpack.</p>
+                    <a href="#android-section" style="color: #db7c26; font-weight: 600; text-decoration: none;">View Kotlin Guide →</a>
+                </div>
+                <div class="platform-tab">
+                    <h4>⚡ Flutter</h4>
+                    <p>Cross-platform with Dart and HTTP package.</p>
+                    <a href="#flutter-section" style="color: #db7c26; font-weight: 600; text-decoration: none;">View Flutter Guide →</a>
+                </div>
+                <div class="platform-tab">
+                    <h4>⚛️ React Native</h4>
+                    <p>Cross-platform with JavaScript and Fetch API.</p>
+                    <a href="#react-section" style="color: #db7c26; font-weight: 600; text-decoration: none;">View React Native Guide →</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="ios-section">
+            <h2>iOS / Swift Integration</h2>
+
+            <h3>HTTP Client Setup</h3>
+
+            <div class="code-label">GameBackendService.swift</div>
+            <div class="code-block">
+import Foundation
+
+enum APIError: Error {
+    case invalidURL
+    case invalidResponse
+    case decodingError
+    case networkError(Error)
+}
+
+struct LoginResponse: Codable {
+    let status: String
+    let player_id: Int
+    let token: String
+    let refresh_token: String
+    let remember_token: String?
+    let server: ServerInfo
+}
+
+struct ServerInfo: Codable {
+    let ip: String
+    let port: Int
+}
+
+class GameBackendService {
+    static let shared = GameBackendService()
+
+    private let baseURL = "http://localhost:7777"
+    private var accessToken: String = ""
+    private var playerId: Int = 0
+
+    // MARK: - Authentication
+
+    func login(
+        displayName: String,
+        playerTag: String,
+        password: String,
+        rememberMe: Bool = true,
+        completion: @escaping (Result<LoginResponse, APIError>) -> Void
+    ) {
+        let endpoint = "/account/login"
+        guard let url = URL(string: baseURL + endpoint) else {
+            completion(.failure(.invalidURL))
+            return
+        }
+
+        let payload: [String: Any] = [
+            "display_name": displayName,
+            "player_tag": playerTag,
+            "password": password,
+            "remember_me": rememberMe
+        ]
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: payload)
+        } catch {
+            completion(.failure(.invalidResponse))
+            return
+        }
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(.failure(.networkError(error)))
+                return
+            }
+
+            guard let data = data else {
+                completion(.failure(.invalidResponse))
+                return
+            }
+
+            do {
+                let response = try JSONDecoder().decode(LoginResponse.self, from: data)
+                self.accessToken = response.token
+                self.playerId = response.player_id
+
+                // Save tokens to Keychain
+                self.saveTokensToKeychain(
+                    token: response.token,
+                    refreshToken: response.refresh_token,
+                    rememberToken: response.remember_token)
+
+                completion(.success(response))
+                self.startHeartbeat()
+            } catch {
+                completion(.failure(.decodingError))
+            }
+        }.resume()
+    }
+
+    func sendFriendRequest(
+        receiverId: Int,
+        completion: @escaping (Result<Void, APIError>) -> Void
+    ) {
+        guard let url = URL(string: baseURL + "/friends/invite") else {
+            completion(.failure(.invalidURL))
+            return
+        }
+
+        let payload: [String: Any] = ["receiver_id": receiverId]
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: payload)
+        } catch {
+            completion(.failure(.invalidResponse))
+            return
+        }
+
+        URLSession.shared.dataTask(with: request) { _, response, error in
+            if let error = error {
+                completion(.failure(.networkError(error)))
+                return
+            }
+
+            guard let httpResponse = response as? HTTPURLResponse,
+                  httpResponse.statusCode == 200 else {
+                completion(.failure(.invalidResponse))
+                return
+            }
+
+            completion(.success(()))
+        }.resume()
+    }
+
+    // MARK: - Keychain Management
+
+    private func saveTokensToKeychain(
+        token: String,
+        refreshToken: String,
+        rememberToken: String?
+    ) {
+        let keychainItems: [String: String] = [
+            "access_token": token,
+            "refresh_token": refreshToken,
+            "remember_token": rememberToken ?? ""
+        ]
+
+        for (key, value) in keychainItems {
+            let query: [String: Any] = [
+                kSecClass as String: kSecClassGenericPassword,
+                kSecAttrAccount as String: key
+            ]
+
+            SecItemDelete(query as CFDictionary)
+
+            let addQuery: [String: Any] = [
+                kSecClass as String: kSecClassGenericPassword,
+                kSecAttrAccount as String: key,
+                kSecValueData as String: value.data(using: .utf8) ?? Data()
+            ]
+
+            SecItemAdd(addQuery as CFDictionary, nil)
+        }
+    }
+
+    // MARK: - Heartbeat
+
+    private var heartbeatTimer: Timer?
+
+    private func startHeartbeat() {
+        heartbeatTimer?.invalidate()
+        heartbeatTimer = Timer.scheduledTimer(
+            withTimeInterval: 30.0,
+            repeats: true
+        ) { _ in
+            self.sendHeartbeat()
+        }
+    }
+
+    private func sendHeartbeat() {
+        guard let url = URL(string: baseURL + "/player/heartbeat") else {
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+
+        URLSession.shared.dataTask(with: request).resume()
+    }
+}
+            </div>
+
+            <div class="tip">
+                <strong>💡 Keychain Security:</strong> Use iOS Keychain to store sensitive tokens instead of UserDefaults. This provides encrypted storage for sensitive data.
+            </div>
+        </section>
+
+        <section id="android-section">
+            <h2>Android / Kotlin Integration</h2>
+
+            <h3>Setup Gradle Dependencies</h3>
+
+            <div class="code-label">build.gradle</div>
+            <div class="code-block">
+dependencies {
+    // Retrofit for HTTP
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    
+    // Kotlin Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+    
+    // OkHttp for interceptors
+    implementation "com.squareup.okhttp3:okhttp:4.10.0"
+    
+    // Jetpack Security for encrypted preferences
+    implementation "androidx.security:security-crypto:1.1.0-alpha06"
+}
+            </div>
+
+            <h3>Retrofit Service Interface</h3>
+
+            <div class="code-label">GameBackendAPI.kt</div>
+            <div class="code-block">
+import retrofit2.http.*
+import retrofit2.Response
+
+data class LoginRequest(
+    val display_name: String,
+    val player_tag: String,
+    val password: String,
+    val remember_me: Boolean = true
+)
+
+data class LoginResponse(
+    val status: String,
+    val player_id: Int,
+    val token: String,
+    val refresh_token: String,
+    val remember_token: String?,
+    val server: ServerInfo
+)
+
+data class ServerInfo(
+    val ip: String,
+    val port: Int
+)
+
+interface GameBackendAPI {
+    @POST("/account/login")
+    suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
+
+    @POST("/friends/invite")
+    suspend fun sendFriendRequest(
+        @Body request: FriendRequest
+    ): Response<FriendResponse>
+
+    @POST("/session/create")
+    suspend fun createGameSession(
+        @Body request: CreateSessionRequest
+    ): Response<SessionResponse>
+
+    @POST("/invite/send")
+    suspend fun sendGameInvite(
+        @Body request: InviteRequest
+    ): Response<InviteResponse>
+
+    @GET("/friends/list/{playerId}")
+    suspend fun getFriendsList(
+        @Path("playerId") playerId: Int
+    ): Response<FriendsListResponse>
+}
+
+data class FriendRequest(val receiver_id: Int)
+data class CreateSessionRequest(
+    val session_name: String,
+    val max_players: Int,
+    val game_mode: String = "Default"
+)
+data class InviteRequest(
+    val receiver_id: Int,
+    val session_code: String
+)
+            </div>
+
+            <h3>Repository Implementation</h3>
+
+            <div class="code-label">GameBackendRepository.kt</div>
+            <div class="code-block">
+import android.content.Context
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
+import kotlinx.coroutines.*
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import okhttp3.OkHttpClient
+import okhttp3.Interceptor
+
+class GameBackendRepository(private val context: Context) {
+    private val masterKey = MasterKey.Builder(context)
+        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+        .build()
+
+    private val encryptedPrefs = EncryptedSharedPreferences.create(
+        context,
+        "backend_prefs",
+        masterKey,
+        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+    )
+
+    private var accessToken = encryptedPrefs.getString("access_token", "")
+    private var playerId = encryptedPrefs.getInt("player_id", 0)
+
+    private val httpClient = OkHttpClient.Builder()
+        .addInterceptor(TokenInterceptor())
+        .build()
+
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("http://localhost:7777")
+        .client(httpClient)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    private val api = retrofit.create(GameBackendAPI::class.java)
+
+    inner class TokenInterceptor : Interceptor {
+        override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
+            var request = chain.request()
+
+            if (accessToken.isNotEmpty()) {
+                request = request.newBuilder()
+                    .addHeader("Authorization", "Bearer $accessToken")
+                    .build()
+            }
+
+            return chain.proceed(request)
+        }
+    }
+
+    suspend fun login(
+        displayName: String,
+        playerTag: String,
+        password: String
+    ): Result<LoginResponse> = withContext(Dispatchers.IO) {
+        try {
+            val response = api.login(
+                LoginRequest(displayName, playerTag, password)
+            )
+
+            if (response.isSuccessful) {
+                val data = response.body()!!
+                accessToken = data.token
+                playerId = data.player_id
+
+                // Save to encrypted storage
+                encryptedPrefs.edit().apply {
+                    putString("access_token", data.token)
+                    putString("refresh_token", data.refresh_token)
+                    putInt("player_id", data.player_id)
+                    apply()
+                }
+
+                startHeartbeat()
+                Result.success(data)
+            } else {
+                Result.failure(Exception("Login failed"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun sendFriendRequest(receiverId: Int) = withContext(Dispatchers.IO) {
+        try {
+            val response = api.sendFriendRequest(FriendRequest(receiverId))
+            if (response.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                Result.failure(Exception("Friend request failed"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    private var heartbeatJob: Job? = null
+
+    private fun startHeartbeat() {
+        heartbeatJob = GlobalScope.launch {
+            while (true) {
+                delay(30000) // 30 seconds
+                sendHeartbeat()
+            }
+        }
+    }
+
+    private suspend fun sendHeartbeat() {
+        try {
+            // Implementation for heartbeat
+        } catch (e: Exception) {
+            // Log error
+        }
+    }
+}
+            </div>
+
+            <div class="tip">
+                <strong>💡 Encrypted Preferences:</strong> Always use EncryptedSharedPreferences for storing tokens on Android. Never use regular SharedPreferences for sensitive data.
+            </div>
+        </section>
+
+        <section id="flutter-section">
+            <h2>Flutter Integration</h2>
+
+            <h3>Pubspec Dependencies</h3>
+
+            <div class="code-label">pubspec.yaml</div>
+            <div class="code-block">
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^0.13.0
+  dio: ^4.0.0
+  flutter_secure_storage: ^6.0.0
+  provider: ^6.0.0
+            </div>
+
+            <h3>Backend Service</h3>
+
+            <div class="code-label">lib/services/backend_service.dart</div>
+            <div class="code-block">
+import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+class LoginResponse {
+  final String status;
+  final int playerId;
+  final String token;
+  final String refreshToken;
+  final String? rememberToken;
+
+  LoginResponse({
+    required this.status,
+    required this.playerId,
+    required this.token,
+    required this.refreshToken,
+    this.rememberToken,
+  });
+
+  factory LoginResponse.fromJson(Map<String, dynamic> json) {
+    return LoginResponse(
+      status: json['status'],
+      playerId: json['player_id'],
+      token: json['token'],
+      refreshToken: json['refresh_token'],
+      rememberToken: json['remember_token'],
+    );
+  }
+}
+
+class GameBackendService {
+  static const String baseUrl = 'http://localhost:7777';
+  static const _storage = FlutterSecureStorage();
+
+  late Dio _dio;
+  String _accessToken = '';
+  int _playerId = 0;
+
+  GameBackendService() {
+    _dio = Dio(BaseOptions(
+      baseUrl: baseUrl,
+      connectTimeout: const Duration(seconds: 10),
+      receiveTimeout: const Duration(seconds: 10),
+    ));
+
+    _dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          if (_accessToken.isNotEmpty) {
+            options.headers['Authorization'] = 'Bearer $_accessToken';
+          }
+          return handler.next(options);
+        },
+      ),
+    );
+
+    _loadTokens();
+  }
+
+  Future<LoginResponse> login(
+    String displayName,
+    String playerTag,
+    String password, {
+    bool rememberMe = true,
+  }) async {
+    try {
+      final response = await _dio.post(
+        '/account/login',
+        data: {
+          'display_name': displayName,
+          'player_tag': playerTag,
+          'password': password,
+          'remember_me': rememberMe,
+        },
+      );
+
+      final loginResponse = LoginResponse.fromJson(response.data);
+      _accessToken = loginResponse.token;
+      _playerId = loginResponse.playerId;
+
+      // Save tokens securely
+      await _storage.write(key: 'access_token', value: loginResponse.token);
+      await _storage.write(
+        key: 'refresh_token',
+        value: loginResponse.refreshToken,
+      );
+      if (loginResponse.rememberToken != null) {
+        await _storage.write(
+          key: 'remember_token',
+          value: loginResponse.rememberToken!,
+        );
+      }
+
+      _startHeartbeat();
+      return loginResponse;
+    } catch (e) {
+      throw Exception('Login failed: $e');
+    }
+  }
+
+  Future<void> sendFriendRequest(int receiverId) async {
+    try {
+      await _dio.post(
+        '/friends/invite',
+        data: {'receiver_id': receiverId},
+      );
+    } catch (e) {
+      throw Exception('Friend request failed: $e');
+    }
+  }
+
+  Future<void> sendGameInvite(int receiverId, String sessionCode) async {
+    try {
+      await _dio.post(
+        '/invite/send',
+        data: {
+          'receiver_id': receiverId,
+          'session_code': sessionCode,
+        },
+      );
+    } catch (e) {
+      throw Exception('Game invite failed: $e');
+    }
+  }
+
+  Future<void> _loadTokens() async {
+    _accessToken = await _storage.read(key: 'access_token') ?? '';
+    _playerId = int.tryParse(
+        await _storage.read(key: 'player_id') ?? '0') ?? 0;
+  }
+
+  void _startHeartbeat() {
+    Future.doWhile(() async {
+      await Future.delayed(const Duration(seconds: 30));
+      return await _sendHeartbeat();
+    });
+  }
+
+  Future<bool> _sendHeartbeat() async {
+    try {
+      await _dio.post('/player/heartbeat');
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<void> logout() async {
+    _accessToken = '';
+    _playerId = 0;
+    await _storage.deleteAll();
+  }
+}
+            </div>
+        </section>
+
+        <section id="react-section">
+            <h2>React Native Integration</h2>
+
+            <h3>Dependencies</h3>
+
+            <div class="code-label">package.json</div>
+            <div class="code-block">
+{
+  "dependencies": {
+    "react-native": "0.72.0",
+    "react-native-secure-storage": "^1.8.1",
+    "axios": "^1.4.0"
+  }
+}
+            </div>
+
+            <h3>Backend Service</h3>
+
+            <div class="code-label">services/GameBackendService.js</div>
+            <div class="code-block">
+import axios from 'axios';
+import RNSecureStorage from 'react-native-secure-storage';
+
+const BASE_URL = 'http://localhost:7777';
+
+class GameBackendService {
+  constructor() {
+    this.accessToken = '';
+    this.playerId = 0;
+    this.httpClient = axios.create({
+      baseURL: BASE_URL,
+      timeout: 10000,
+    });
+
+    // Add interceptor for auth headers
+    this.httpClient.interceptors.request.use((config) => {
+      if (this.accessToken) {
+        config.headers.Authorization = `Bearer ${this.accessToken}`;
+      }
+      return config;
+    });
+
+    this.loadTokens();
+  }
+
+  async loadTokens() {
+    try {
+      this.accessToken = 
+        await RNSecureStorage.getItem('access_token') || '';
+      this.playerId = 
+        parseInt(await RNSecureStorage.getItem('player_id') || '0');
+    } catch (error) {
+      console.error('Failed to load tokens:', error);
+    }
+  }
+
+  async login(displayName, playerTag, password, rememberMe = true) {
+    try {
+      const response = await this.httpClient.post('/account/login', {
+        display_name: displayName,
+        player_tag: playerTag,
+        password: password,
+        remember_me: rememberMe,
+      });
+
+      const data = response.data;
+      this.accessToken = data.token;
+      this.playerId = data.player_id;
+
+      // Save tokens securely
+      await RNSecureStorage.setItem('access_token', data.token);
+      await RNSecureStorage.setItem('refresh_token', data.refresh_token);
+      await RNSecureStorage.setItem('player_id', data.player_id.toString());
+
+      if (data.remember_token) {
+        await RNSecureStorage.setItem('remember_token', data.remember_token);
+      }
+
+      this.startHeartbeat();
+      return data;
+    } catch (error) {
+      throw new Error(`Login failed: ${error.message}`);
+    }
+  }
+
+  async sendFriendRequest(receiverId) {
+    try {
+      await this.httpClient.post('/friends/invite', {
+        receiver_id: receiverId,
+      });
+    } catch (error) {
+      throw new Error(`Friend request failed: ${error.message}`);
+    }
+  }
+
+  async sendGameInvite(receiverId, sessionCode) {
+    try {
+      await this.httpClient.post('/invite/send', {
+        receiver_id: receiverId,
+        session_code: sessionCode,
+      });
+    } catch (error) {
+      throw new Error(`Game invite failed: ${error.message}`);
+    }
+  }
+
+  startHeartbeat() {
+    this.heartbeatInterval = setInterval(() => {
+      this.sendHeartbeat();
+    }, 30000); // 30 seconds
+  }
+
+  async sendHeartbeat() {
+    try {
+      await this.httpClient.post('/player/heartbeat');
+    } catch (error) {
+      console.warn('Heartbeat failed:', error.message);
+    }
+  }
+
+  async logout() {
+    clearInterval(this.heartbeatInterval);
+    this.accessToken = '';
+    this.playerId = 0;
+    await RNSecureStorage.removeItem('access_token');
+    await RNSecureStorage.removeItem('refresh_token');
+    await RNSecureStorage.removeItem('remember_token');
+    await RNSecureStorage.removeItem('player_id');
+  }
+}
+
+export default new GameBackendService();
+            </div>
+
+            <div class="code-label">screens/LoginScreen.js</div>
+            <div class="code-block">
+import React, { useState } from 'react';
+import { View, TextInput, TouchableOpacity, Text } from 'react-native';
+import GameBackendService from '../services/GameBackendService';
+
+export default function LoginScreen({ navigation }) {
+  const [displayName, setDisplayName] = useState('');
+  const [playerTag, setPlayerTag] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleLogin = async () => {
+    setLoading(true);
+    setError('');
+
+    try {
+      await GameBackendService.login(
+        displayName,
+        playerTag,
+        password,
+        true
+      );
+      navigation.navigate('Home');
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <View style={{ flex: 1, padding: 20, justifyContent: 'center' }}>
+      <TextInput
+        placeholder="Display Name"
+        value={displayName}
+        onChangeText={setDisplayName}
+        style={{ marginBottom: 10, padding: 10, borderWidth: 1 }}
+      />
+      <TextInput
+        placeholder="Player Tag"
+        value={playerTag}
+        onChangeText={setPlayerTag}
+        style={{ marginBottom: 10, padding: 10, borderWidth: 1 }}
+      />
+      <TextInput
+        placeholder="Password"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+        style={{ marginBottom: 10, padding: 10, borderWidth: 1 }}
+      />
+      <TouchableOpacity
+        onPress={handleLogin}
+        disabled={loading}
+        style={{
+          backgroundColor: loading ? '#ccc' : '#db7c26',
+          padding: 12,
+          borderRadius: 5,
+        }}
+      >
+        <Text style={{ color: 'white', textAlign: 'center', fontWeight: 'bold' }}>
+          {loading ? 'Logging In...' : 'Login'}
+        </Text>
+      </TouchableOpacity>
+      {error && <Text style={{ color: 'red', marginTop: 10 }}>{error}</Text>}
+    </View>
+  );
+}
+            </div>
+        </section>
+
+        <section>
+            <h2>Mobile Best Practices</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Best Practice</th>
+                        <th>Why</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Token Storage</strong></td>
+                        <td>Use Keychain (iOS) / Encrypted Preferences (Android)</td>
+                        <td>Prevents token theft from app storage</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Network Requests</strong></td>
+                        <td>Set timeouts and implement retry logic</td>
+                        <td>Handles poor network conditions gracefully</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Heartbeats</strong></td>
+                        <td>Send every 30 seconds in background</td>
+                        <td>Maintains player online status</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Error Handling</strong></td>
+                        <td>Show user-friendly messages, not raw API errors</td>
+                        <td>Improves user experience</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Offline Mode</strong></td>
+                        <td>Cache data locally, sync when online</td>
+                        <td>Works when network is unavailable</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>Common Mobile Issues</h2>
+
+            <div class="card">
+                <h4>❌ Issue: App killed, player logged out</h4>
+                <p><strong>Solution:</strong> Save tokens to secure storage and implement auto-login on app restart using remember_token</p>
+            </div>
+
+            <div class="card">
+                <h4>❌ Issue: Heartbeat not sending in background</h4>
+                <p><strong>Solution:</strong> Use platform-specific background task APIs (WorkManager for Android, Background Modes for iOS)</p>
+            </div>
+
+            <div class="card">
+                <h4>❌ Issue: SSL certificate errors</h4>
+                <p><strong>Solution:</strong> For development, use HTTP. For production, ensure proper SSL certificates on server</p>
+            </div>
+
+            <div class="card">
+                <h4>❌ Issue: Network timeout on slow connections</h4>
+                <p><strong>Solution:</strong> Increase timeout values and implement exponential backoff for retries</p>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 FoxTooth Backend. Mobile Integration Guide.</p>
+        <p><a href="docs-hub.html">Documentation Hub</a> | <a href="index.html">Main Page</a></p>
+    </footer>
+</body>
+</html>

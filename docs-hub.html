@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoxTooth Backend - Documentation Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            color: #495159;
+            background: linear-gradient(135deg, #f7f9f9 0%, #ffffff 100%);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #000000 0%, #495159 100%);
+            color: #f7f9f9;
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 4px solid #db7c26;
+        }
+
+        header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        header .subtitle {
+            font-size: 1.2rem;
+            font-weight: 600;
+            opacity: 0.95;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .accent {
+            color: #db7c26;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        section {
+            margin: 60px 0;
+        }
+
+        section h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 15px;
+            border-bottom: 3px solid #db7c26;
+            padding-bottom: 15px;
+        }
+
+        section > p {
+            font-size: 1.05rem;
+            color: #495159;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .documentation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .doc-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .doc-card:nth-child(1) { animation-delay: 0.1s; }
+        .doc-card:nth-child(2) { animation-delay: 0.2s; }
+        .doc-card:nth-child(3) { animation-delay: 0.3s; }
+        .doc-card:nth-child(4) { animation-delay: 0.4s; }
+        .doc-card:nth-child(5) { animation-delay: 0.5s; }
+        .doc-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .doc-card:hover {
+            box-shadow: 0 12px 30px rgba(219, 124, 38, 0.25);
+            transform: translateY(-8px);
+        }
+
+        .doc-card-header {
+            background: linear-gradient(135deg, #db7c26 0%, #c9651c 100%);
+            color: white;
+            padding: 30px 25px;
+            text-align: center;
+        }
+
+        .doc-card-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .doc-card h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+            margin: 0;
+        }
+
+        .doc-card-body {
+            padding: 25px;
+        }
+
+        .doc-card p {
+            color: #495159;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .doc-card ul {
+            list-style: none;
+            margin: 15px 0;
+            padding: 0;
+        }
+
+        .doc-card li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #495159;
+            font-size: 0.9rem;
+        }
+
+        .doc-card li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #db7c26;
+            font-weight: bold;
+        }
+
+        .doc-card-footer {
+            padding: 20px 25px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .view-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #db7c26 0%, #c9651c 100%);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            border: 2px solid #db7c26;
+        }
+
+        .view-button:hover {
+            background: linear-gradient(135deg, #c9651c 0%, #b05917 100%);
+            box-shadow: 0 6px 16px rgba(219, 124, 38, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .back-to-home {
+            display: inline-block;
+            background: #495159;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .back-to-home:hover {
+            background: #000000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, rgba(219, 124, 38, 0.1) 0%, rgba(219, 124, 38, 0.05) 100%);
+            border-left: 5px solid #db7c26;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 30px 0;
+        }
+
+        .info-box h4 {
+            color: #db7c26;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .info-box p {
+            color: #495159;
+            margin: 0;
+        }
+
+        footer {
+            background: #000000;
+            color: #f7f9f9;
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 4px solid #db7c26;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #db7c26;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            section h2 {
+                font-size: 1.6rem;
+            }
+            .documentation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>FoxTooth <span class="accent">Documentation</span></h1>
+        <div class="subtitle">Complete Integration & Reference Guides</div>
+    </header>
+
+    <div class="container">
+        <a href="index.html" class="back-to-home">← Back to Main Page</a>
+
+        <section>
+            <h2>Choose Your Path</h2>
+            <p>Select the documentation that best fits your integration needs. Each guide includes code samples, best practices, and complete examples.</p>
+
+            <div class="documentation-grid">
+                <!-- Endpoints Documentation -->
+                <div class="doc-card">
+                    <div class="doc-card-header">
+                        <div class="doc-card-icon">🔌</div>
+                        <h3>API Endpoints</h3>
+                    </div>
+                    <div class="doc-card-body">
+                        <p>Complete reference for all REST API endpoints, request/response formats, and error handling.</p>
+                        <ul>
+                            <li>21+ Full Endpoints</li>
+                            <li>Request/Response Examples</li>
+                            <li>Error Codes & Handling</li>
+                            <li>Rate Limiting Info</li>
+                        </ul>
+                    </div>
+                    <div class="doc-card-footer">
+                        <a href="docs-endpoints.html" class="view-button">View Documentation →</a>
+                    </div>
+                </div>
+
+                <!-- Unity Integration -->
+                <div class="doc-card">
+                    <div class="doc-card-header">
+                        <div class="doc-card-icon">🎮</div>
+                        <h3>Unity Integration</h3>
+                    </div>
+                    <div class="doc-card-body">
+                        <p>Complete guide for integrating FoxTooth with Unity game engine. C# code samples included.</p>
+                        <ul>
+                            <li>Authentication Flow</li>
+                            <li>Friend System Setup</li>
+                            <li>Game Invites</li>
+                            <li>Real-time WebSocket</li>
+                        </ul>
+                    </div>
+                    <div class="doc-card-footer">
+                        <a href="docs-unity.html" class="view-button">View Documentation →</a>
+                    </div>
+                </div>
+
+                <!-- Unreal/C++ Integration -->
+                <div class="doc-card">
+                    <div class="doc-card-header">
+                        <div class="doc-card-icon">⚙️</div>
+                        <h3>Unreal Engine / C++</h3>
+                    </div>
+                    <div class="doc-card-body">
+                        <p>Integration guide for Unreal Engine with native C++ implementation. HTTP and WebSocket support.</p>
+                        <ul>
+                            <li>C++ HTTP Client</li>
+                            <li>JSON Serialization</li>
+                            <li>Async Request Handling</li>
+                            <li>Blueprint Integration</li>
+                        </ul>
+                    </div>
+                    <div class="doc-card-footer">
+                        <a href="docs-unreal.html" class="view-button">View Documentation →</a>
+                    </div>
+                </div>
+
+                <!-- Mobile Integration -->
+                <div class="doc-card">
+                    <div class="doc-card-header">
+                        <div class="doc-card-icon">📱</div>
+                        <h3>Mobile Integration</h3>
+                    </div>
+                    <div class="doc-card-body">
+                        <p>Guide for iOS and Android apps using Swift, Kotlin, or cross-platform frameworks.</p>
+                        <ul>
+                            <li>iOS/Swift Implementation</li>
+                            <li>Android/Kotlin Implementation</li>
+                            <li>Cross-Platform (Flutter/React Native)</li>
+                            <li>Offline Support & Caching</li>
+                        </ul>
+                    </div>
+                    <div class="doc-card-footer">
+                        <a href="docs-mobile.html" class="view-button">View Documentation →</a>
+                    </div>
+                </div>
+
+                <!-- Database & SQL -->
+                <div class="doc-card">
+                    <div class="doc-card-header">
+                        <div class="doc-card-icon">🗄️</div>
+                        <h3>Database & SQL</h3>
+                    </div>
+                    <div class="doc-card-body">
+                        <p>Complete database schema, migrations, and SQL setup for the backend system.</p>
+                        <ul>
+                            <li>Full Schema Documentation</li>
+                            <li>Migration Scripts</li>
+                            <li>Indexing Strategy</li>
+                            <li>Query Examples</li>
+                        </ul>
+                    </div>
+                    <div class="doc-card-footer">
+                        <a href="docs-database.html" class="view-button">View Documentation →</a>
+                    </div>
+                </div>
+
+                <!-- System Overview -->
+                <div class="doc-card">
+                    <div class="doc-card-header">
+                        <div class="doc-card-icon">📊</div>
+                        <h3>System Overview</h3>
+                    </div>
+                    <div class="doc-card-body">
+                        <p>Architecture deep-dive, technology stack, and complete system design documentation.</p>
+                        <ul>
+                            <li>Architecture Diagrams</li>
+                            <li>Technology Stack</li>
+                            <li>Data Flow</li>
+                            <li>Deployment Guide</li>
+                        </ul>
+                    </div>
+                    <div class="doc-card-footer">
+                        <a href="docs-overview.html" class="view-button">View Documentation →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Quick Navigation</h2>
+            <div class="info-box">
+                <h4>🚀 Getting Started?</h4>
+                <p>Start with <strong>System Overview</strong> for architecture understanding, then pick your integration path above.</p>
+            </div>
+
+            <div class="info-box">
+                <h4>🔐 Security First</h4>
+                <p>All documentation includes authentication flows, token management, and security best practices for your platform.</p>
+            </div>
+
+            <div class="info-box">
+                <h4>💾 Database Setup</h4>
+                <p>Run migrations from <strong>Database & SQL</strong> documentation before starting your integration.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Documentation Stats</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 30px;">
+                <div style="background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center;">
+                    <div style="font-size: 2.5rem; color: #db7c26; font-weight: 800; margin-bottom: 10px;">6</div>
+                    <div style="color: #495159; font-weight: 600;">Documentation Pages</div>
+                </div>
+                <div style="background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center;">
+                    <div style="font-size: 2.5rem; color: #db7c26; font-weight: 800; margin-bottom: 10px;">21+</div>
+                    <div style="color: #495159; font-weight: 600;">API Endpoints</div>
+                </div>
+                <div style="background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center;">
+                    <div style="font-size: 2.5rem; color: #db7c26; font-weight: 800; margin-bottom: 10px;">4</div>
+                    <div style="color: #495159; font-weight: 600;">Integration Platforms</div>
+                </div>
+                <div style="background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center;">
+                    <div style="font-size: 2.5rem; color: #db7c26; font-weight: 800; margin-bottom: 10px;">100%</div>
+                    <div style="color: #495159; font-weight: 600;">Code Examples</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 FoxTooth Backend. Enterprise Video Game Server Infrastructure.</p>
+        <p><a href="index.html">Main Documentation</a> | <a href="docs-hub.html">Documentation Hub</a></p>
+    </footer>
+</body>
+</html>
